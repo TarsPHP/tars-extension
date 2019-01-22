@@ -1341,7 +1341,7 @@ size_t tars_type_name(zval * this_ptr, int * type, char ** out) {
 
 
     if (Z_TYPE_P(this_ptr) == IS_OBJECT) {
-        zval * orig_type = zend_read_static_property(Z_OBJCE_P(this_ptr), ZEND_STRL(TARS_PROP_ORIG_TYPE), 1 TSRMLS_CC);
+        zval * orig_type = my_zend_read_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL(TARS_PROP_ORIG_TYPE), 1 TSRMLS_CC);
 
 #if PHP_MAJOR_VERSION >= 7
         if (Z_TYPE_P(orig_type) == IS_REFERENCE) {
@@ -1642,19 +1642,19 @@ TUP_STARTUP_FUNC(ttars) {
     tars_vector_ce = zend_register_internal_class(&ce TSRMLS_CC);
     memcpy(&vector_wrapper_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
     vector_wrapper_handlers.clone_obj = NULL;
-    zend_declare_property_long(tars_vector_ce, ZEND_STRL(TARS_PROP_ORIG_TYPE), VECTOR_PROP_ORIG_TYPE, ZEND_ACC_PRIVATE | ZEND_ACC_STATIC TSRMLS_CC);
+    zend_declare_property_long(tars_vector_ce, ZEND_STRL(TARS_PROP_ORIG_TYPE), VECTOR_PROP_ORIG_TYPE, ZEND_ACC_PRIVATE TSRMLS_CC);
 
     INIT_CLASS_ENTRY(ce, "TARS_Map", tars_map_methods);
     ce.create_object = map_wrapper_object_new;
     tars_map_ce = zend_register_internal_class(&ce TSRMLS_CC);
     memcpy(&map_wrapper_handlers, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
     map_wrapper_handlers.clone_obj = NULL;
-    zend_declare_property_long(tars_map_ce, ZEND_STRL(TARS_PROP_ORIG_TYPE), MAP_PROP_ORIG_TYPE, ZEND_ACC_PRIVATE | ZEND_ACC_STATIC TSRMLS_CC);
+    zend_declare_property_long(tars_map_ce, ZEND_STRL(TARS_PROP_ORIG_TYPE), MAP_PROP_ORIG_TYPE, ZEND_ACC_PRIVATE TSRMLS_CC);
     zend_declare_property_bool(tars_map_ce, ZEND_STRL(MAP_PROP_PARAM_FORMAT), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
 
     INIT_CLASS_ENTRY(ce, "TARS_Struct", tars_struct_methods);
     tars_struct_ce = zend_register_internal_class(&ce TSRMLS_CC);
-    zend_declare_property_long(tars_struct_ce, ZEND_STRL(TARS_PROP_ORIG_TYPE), STRUCT_PROP_ORIG_TYPE, ZEND_ACC_PROTECTED | ZEND_ACC_STATIC TSRMLS_CC);
+    zend_declare_property_long(tars_struct_ce, ZEND_STRL(TARS_PROP_ORIG_TYPE), STRUCT_PROP_ORIG_TYPE, ZEND_ACC_PROTECTED TSRMLS_CC);
 
     return SUCCESS;
 }
