@@ -5,11 +5,13 @@
  * Date: 2017/6/16
  * Time: 下午6:15.
  */
+use PHPUnit\Framework\TestCase;
+
 require_once 'SimpleStruct.php';
 require_once 'NestedStruct.php';
 require_once 'AllTypeStruct.php';
 
-class TarsTest extends PHPUnit_Framework_TestCase
+class TarsTest extends TestCase
 {
     public $iVersion = 3;
     public $iRequestId = 1;

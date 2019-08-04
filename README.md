@@ -178,7 +178,7 @@ $buf = $ret['sBuffer']
 
 ## tars2php（自动生成php类工具）使用说明
 请参见tars2php模块下的文档说明:
-[详细说明](https://github.com/Tencent/Tars/blob/master/php/tars2php/README.md)
+[详细说明](https://github.com/TarsPHP/tars2php/blob/master/README.md)
 
 ## 测试用例
 

@@ -33,6 +33,14 @@
 #include "./include/ttars.h"
 
 
+zend_class_entry * tup_ce;
+zend_class_entry * tup_exception_ce;
+zend_class_entry * tars_ce;
+zend_class_entry * tars_struct_ce;
+zend_class_entry * tars_vector_ce;
+zend_class_entry * tars_map_ce;
+
+
 ZEND_BEGIN_ARG_INFO_EX(tup_put_vector_arginfo, 0, 0, 2)
     ZEND_ARG_INFO(0, name)
     ZEND_ARG_OBJ_INFO(0, clazz, \\TARS_Vector, 0)

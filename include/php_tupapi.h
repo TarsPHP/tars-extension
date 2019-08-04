@@ -36,14 +36,14 @@ extern zend_module_entry phptars_module_entry;
 
 #include "php7_wrapper.h"
 
-#define PHP_TARS_VERSION "2.2.3"
+#define PHP_TARS_VERSION "2.2.5"
 
-zend_class_entry * tup_ce;
-zend_class_entry * tup_exception_ce;
-zend_class_entry * tars_ce;
-zend_class_entry * tars_struct_ce;
-zend_class_entry * tars_vector_ce;
-zend_class_entry * tars_map_ce;
+extern zend_class_entry * tup_ce;
+extern zend_class_entry * tup_exception_ce;
+extern zend_class_entry * tars_ce;
+extern zend_class_entry * tars_struct_ce;
+extern zend_class_entry * tars_vector_ce;
+extern zend_class_entry * tars_map_ce;
 
 #define JS_STRVAL(t) ((t)->_data)
 #define JS_STRLEN(t) ((t)->_len)
