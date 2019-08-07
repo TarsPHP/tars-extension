@@ -1253,17 +1253,13 @@ PHP_METHOD(tup,decodeReqPacket) {
     if(3 == iVersion) {
 
         TarsOutputStream_writeMap(os,((UniAttribute *)unpack)->m_data,0);
-
         len = TarsOutputStream_getLength(os);
 
         outBuff = TarsMalloc(len);
         memcpy(outBuff, TarsOutputStream_getBuffer(os), TarsOutputStream_getLength(os));
 
-
         my_add_assoc_stringl(return_value,"sBuffer",outBuff, len, 1);
-
         if(outBuff) TarsFree(outBuff);
-
     }
     else {
         len = JString_size(unpack->sBuffer);
@@ -1273,13 +1269,32 @@ PHP_METHOD(tup,decodeReqPacket) {
         my_add_assoc_stringl(return_value,"sBuffer",outBuff, len, 1);
 
         if(outBuff) TarsFree(outBuff);
-
     }
 
+    // decode context
+    zval * context_zval;
+    ALLOC_INIT_ZVAL(context_zval);
+    array_init(context_zval);
+
+    JMapWrapper * context = unpack->context;
+    int context_size = JMapWrapper_size(context);
+
+    int index;
+	for (index = 0; index < context_size; ++index)
+	{
+	    uint32_t context_key_len = JArray_getLength(context->first, index);
+	    char * context_key = JArray_getPtr(context->first, index);
+
+        char * context_value = NULL;
+	    uint32_t context_value_len = 0;
+        JMapWrapper_find(context, context_key, context_key_len, &context_value, &context_value_len);
+
+	    add_assoc_stringl_ex(context_zval, context_key , context_key_len, context_value , context_value_len);
+	}
+    add_assoc_zval(return_value, "context", context_zval);
 
     if(os) TarsOutputStream_del(&os);
     if(unpack) UniPacket_del(&unpack);
-
 
     return;
 }
