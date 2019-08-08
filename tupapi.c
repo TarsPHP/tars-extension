@@ -567,6 +567,8 @@ PHP_METHOD(tup,encode) {
             char *key;
             uint keyLen;
             zval ** contextsIter;
+            TarsOutputStream_reset(context_key_tmp);
+            TarsOutputStream_reset(context_value_tmp);
 
 
             if (zend_hash_get_current_key_ex(contextsHt, &key, &keyLen, NULL, 0, NULL) == HASH_KEY_IS_STRING) {
@@ -620,6 +622,8 @@ PHP_METHOD(tup,encode) {
             convert_to_string(contextsIter);
             contextVal = Z_STRVAL_P(contextsIter);
             contextLen = Z_STRLEN_P(contextsIter);
+            TarsOutputStream_reset(context_key_tmp);
+            TarsOutputStream_reset(context_value_tmp);
 
             ret = TarsOutputStream_writeStringBuffer(context_key_tmp, key, strlen(key), 0);
             if (ret) {
@@ -646,8 +650,6 @@ PHP_METHOD(tup,encode) {
 
     // 如果设置了status
     if(NULL != statuses) {
-        TarsOutputStream_reset(context_key_tmp);
-        TarsOutputStream_reset(context_value_tmp);
 
 #if PHP_MAJOR_VERSION < 7
         HashTable *statusesHt= Z_ARRVAL_P(statuses);
@@ -659,6 +661,8 @@ PHP_METHOD(tup,encode) {
             char *key;
             uint keyLen;
             zval ** statusesIter;
+            TarsOutputStream_reset(context_key_tmp);
+            TarsOutputStream_reset(context_value_tmp);
 
             if (zend_hash_get_current_key_ex(statusesHt, &key, &keyLen, NULL, 0, NULL) == HASH_KEY_IS_STRING) {
                 if (zend_hash_get_current_data(statusesHt, (void **)&statusesIter) == FAILURE) {
@@ -710,6 +714,8 @@ PHP_METHOD(tup,encode) {
             convert_to_string(statusesIter);
             statusVal = Z_STRVAL_P(statusesIter);
             statusLen = Z_STRLEN_P(statusesIter);
+            TarsOutputStream_reset(context_key_tmp);
+            TarsOutputStream_reset(context_value_tmp);
 
             ret = TarsOutputStream_writeStringBuffer(context_key_tmp, key, strlen(key), 0);
             if (ret) {
@@ -1292,6 +1298,27 @@ PHP_METHOD(tup,decodeReqPacket) {
 	    add_assoc_stringl_ex(context_zval, context_key , context_key_len, context_value , context_value_len);
 	}
     add_assoc_zval(return_value, "context", context_zval);
+
+    // decode status
+    zval * status_zval;
+    ALLOC_INIT_ZVAL(status_zval);
+    array_init(status_zval);
+
+    JMapWrapper * status = unpack->status;
+    int status_size = JMapWrapper_size(status);
+
+    for (index = 0; index < status_size; ++index)
+    {
+        uint32_t status_key_len = JArray_getLength(status->first, index);
+        char * status_key = JArray_getPtr(status->first, index);
+
+        char * status_value = NULL;
+        uint32_t status_value_len = 0;
+        JMapWrapper_find(status, status_key, status_key_len, &status_value, &status_value_len);
+
+        add_assoc_stringl_ex(status_zval, status_key , status_key_len, status_value , status_value_len);
+    }
+    add_assoc_zval(return_value, "status", status_zval);
 
     if(os) TarsOutputStream_del(&os);
     if(unpack) UniPacket_del(&unpack);
