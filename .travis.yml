@@ -1,0 +1,28 @@
+language: php 
+
+compiler:
+  - gcc
+  - clang
+
+os:
+  - linux
+
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+  - 7.3
+
+notifications:
+  email: bob_zy@yeah.net
+  
+before_script:
+    - phpize && ./configure && make && make install
+    - echo "extension = phptars.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+script:
+    - cd testcases && phpunit test.php && cd ..
+    - cd testcases && phpunit testTARSClient.php && cd ..
+    - cd testcases && phpunit testTARSServer.php && cd ..
+
+
