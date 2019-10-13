@@ -14,6 +14,9 @@ php:
 
 notifications:
   email: bob_zy@yeah.net
+
+install:
+   - composer install
   
 before_script:
     - phpize && ./configure && make && make install
