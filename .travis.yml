@@ -24,8 +24,8 @@ before_script:
 
 script:
     - cd testcases 
-    - phpunit test.php
-    - phpunit testTARSClient.php
-    - phpunit testTARSServer.php
+    - php ../vendor/bin/phpunit test.php
+    - php ../vendor/bin/phpunit testTARSClient.php
+    - php ../vendor/bin/phpunit testTARSServer.php
 
 
