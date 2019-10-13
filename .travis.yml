@@ -21,8 +21,9 @@ before_script:
     - echo "extension = phptars.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 script:
-    - cd testcases && phpunit test.php && cd ..
-    - cd testcases && phpunit testTARSClient.php && cd ..
-    - cd testcases && phpunit testTARSServer.php && cd ..
+    - cd testcases 
+    - phpunit test.php
+    - phpunit testTARSClient.php
+    - phpunit testTARSServer.php
 
 
