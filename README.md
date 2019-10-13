@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/TarsPHP/tars-extension.svg?branch=master)](https://travis-ci.org/TarsPHP/tars-extension)
 
 # phptars 扩展使用说明
 
