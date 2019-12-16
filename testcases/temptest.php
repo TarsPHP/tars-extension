@@ -15,8 +15,8 @@ class TempTarsTest
     public $cPacketType = 0;
     public $iMessageType = 0;
     public $iTimeout = 2;
-    public $contexts = array('test' => 'testYong');
-    public $statuses = array('test' => 'testStatus');
+    public $contexts = array('test1' => 'testYong', 'test2' => '11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111');
+    public $statuses = array('test' => 'testStatus', 'test2' => '22222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222');
 
     public function testChar()
     {
@@ -34,7 +34,20 @@ class TempTarsTest
         $decodeRet = \TUPAPI::decodeReqPacket($requestBuf);
 
         $context = $decodeRet["context"];
-        var_dump($context);
+        foreach ($context as $key => $value) {
+            var_dump('var_dump($key)');
+            var_dump($key);
+            var_dump('var_dump($value)');
+            var_dump($value);
+        }
+
+        $status = $decodeRet["status"];
+        foreach ($status as $key => $value) {
+            var_dump('var_dump($key)');
+            var_dump($key);
+            var_dump('var_dump($value)');
+            var_dump($value);
+        }
     }
 }
 
