@@ -698,7 +698,6 @@ void TarsInputStream_reset(TarsInputStream * is)
 	is->_cur = 0;
 }
 
-/// ��ȡ����
 Int32 TarsInputStream_readBuf(TarsInputStream * is, void * buf, uint32_t len)
 {
 	Int32 ret;
@@ -710,7 +709,6 @@ Int32 TarsInputStream_readBuf(TarsInputStream * is, void * buf, uint32_t len)
 	return TARS_SUCCESS;
 }
 
-/// ��ȡ���棬�����ı�ƫ����
 Int32 TarsInputStream_peekBuf(TarsInputStream * is, void * buf, uint32_t len, uint32_t offset)
 {
 	if (is->_cur + offset + len > JString_size(is->_buf))
@@ -1235,6 +1233,90 @@ Int32 TarsInputStream_readDouble(TarsInputStream * is, Double* n, uint8_t tag, B
 			return TARS_DECODE_ERROR;
 		}
 	}
+	return TARS_SUCCESS;
+}
+
+Int32 Tars_readStringLen(char* src)
+{
+    helper h;
+	memcpy(&h, src, sizeof(h));
+
+	uint8_t type = helper_getType(&h);
+    int offset = sizeof(h);
+
+    switch (type)
+    {
+    	case eString1:
+    	{
+    	    uint8_t n;
+            char ss[256];
+            memcpy(&n, src + offset, sizeof(n));
+
+            return n;
+    	}
+        case eString4:
+        {
+            uint32_t len;
+            memcpy(&len, src + offset, sizeof(len));
+
+            len = tars_ntohl(len);
+
+            return len;
+        }
+        default:
+        {
+            break;
+        }
+    }
+
+	return 0;
+}
+
+Int32 Tars_readString(char* src, char ** output)
+{
+    hhelper h;
+    memcpy(&h, src, sizeof(h));
+
+    uint8_t type = helper_getType(&h);
+    int offset = sizeof(h);
+
+    switch (type)
+    {
+    	case eString1:
+    	{
+    	    uint8_t n;
+            uint32_t len;
+            memcpy(&n, src + offset, sizeof(n));
+            offset += sizeof(n);
+
+            len = n;
+            memcpy(output, src + offset, len);
+
+            break;
+    	}
+        case eString4:
+        {
+            uint32_t len;
+            char *ss;
+
+            memcpy(&len, src + offset, sizeof(len));
+            offset += sizeof(len);
+
+            len = tars_ntohl(len);
+            if (len > TARS_MAX_STRING_LENGTH)
+            {
+                return TARS_DECODE_ERROR;
+            }
+
+            memcpy(output, src + offset, len);
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+
 	return TARS_SUCCESS;
 }
 

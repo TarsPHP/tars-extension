@@ -1291,11 +1291,18 @@ PHP_METHOD(tup,decodeReqPacket) {
 	    uint32_t context_key_len = JArray_getLength(context->first, index);
 	    char * context_key = JArray_getPtr(context->first, index);
 
-        char * context_value = NULL;
-	    uint32_t context_value_len = 0;
-        JMapWrapper_find(context, context_key, context_key_len, &context_value, &context_value_len);
+	    uint32_t context_value_len = JArray_getLength(context->second, index);
+        char * context_value = JArray_getPtr(context->second, index);
 
-	    add_assoc_stringl_ex(context_zval, context_key , context_key_len, context_value , context_value_len);
+        int context_key_len_unpacked = Tars_readStringLen(context_key);
+        char * context_key_unpacked = TarsMalloc(context_key_len_unpacked);
+        Tars_readString(context_key, context_key_unpacked);
+
+        int context_value_len_unpacked = Tars_readStringLen(context_value);
+        char * context_value_unpacked = TarsMalloc(context_value_len_unpacked);
+        Tars_readString(context_value, context_value_unpacked);
+
+	    add_assoc_stringl_ex(context_zval, context_key_unpacked, context_key_len_unpacked, context_value_unpacked, context_value_len_unpacked);
 	}
     add_assoc_zval(return_value, "context", context_zval);
 
@@ -1312,11 +1319,19 @@ PHP_METHOD(tup,decodeReqPacket) {
         uint32_t status_key_len = JArray_getLength(status->first, index);
         char * status_key = JArray_getPtr(status->first, index);
 
-        char * status_value = NULL;
-        uint32_t status_value_len = 0;
-        JMapWrapper_find(status, status_key, status_key_len, &status_value, &status_value_len);
+        uint32_t status_value_len = JArray_getLength(status->second, index);
+        char * status_value = JArray_getPtr(status->second, index);
 
-        add_assoc_stringl_ex(status_zval, status_key , status_key_len, status_value , status_value_len);
+        int status_key_len_unpacked = Tars_readStringLen(status_key);
+        char * status_key_unpacked = TarsMalloc(status_key_len_unpacked);
+        Tars_readString(status_key, status_key_unpacked);
+
+        int status_value_len_unpacked = Tars_readStringLen(status_value);
+        char * status_value_unpacked = TarsMalloc(status_value_len_unpacked);
+        Tars_readString(status_value, status_value_unpacked);
+
+        add_assoc_stringl_ex(status_zval, status_key_unpacked, status_key_len_unpacked, status_value_unpacked, status_value_len_unpacked);
+
     }
     add_assoc_zval(return_value, "status", status_zval);
 

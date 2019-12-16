@@ -463,4 +463,6 @@ Int32 TarsOutputStream_init(TarsOutputStream * os);
 
 TarsOutputStream * TarsOutputStream_new(void);
 
+Int32 Tars_readString(char* src, char ** output);
+Int32 Tars_readStringLen(char* src);
 #endif
