@@ -1274,7 +1274,7 @@ Int32 Tars_readStringLen(char* src)
 
 Int32 Tars_readString(char* src, char ** output)
 {
-    hhelper h;
+    helper h;
     memcpy(&h, src, sizeof(h));
 
     uint8_t type = helper_getType(&h);
