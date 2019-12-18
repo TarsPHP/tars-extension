@@ -567,6 +567,8 @@ PHP_METHOD(tup,encode) {
             char *key;
             uint keyLen;
             zval ** contextsIter;
+            TarsOutputStream_reset(context_key_tmp);
+            TarsOutputStream_reset(context_value_tmp);
 
 
             if (zend_hash_get_current_key_ex(contextsHt, &key, &keyLen, NULL, 0, NULL) == HASH_KEY_IS_STRING) {
@@ -620,6 +622,8 @@ PHP_METHOD(tup,encode) {
             convert_to_string(contextsIter);
             contextVal = Z_STRVAL_P(contextsIter);
             contextLen = Z_STRLEN_P(contextsIter);
+            TarsOutputStream_reset(context_key_tmp);
+            TarsOutputStream_reset(context_value_tmp);
 
             ret = TarsOutputStream_writeStringBuffer(context_key_tmp, key, strlen(key), 0);
             if (ret) {
@@ -646,8 +650,6 @@ PHP_METHOD(tup,encode) {
 
     // 如果设置了status
     if(NULL != statuses) {
-        TarsOutputStream_reset(context_key_tmp);
-        TarsOutputStream_reset(context_value_tmp);
 
 #if PHP_MAJOR_VERSION < 7
         HashTable *statusesHt= Z_ARRVAL_P(statuses);
@@ -659,6 +661,8 @@ PHP_METHOD(tup,encode) {
             char *key;
             uint keyLen;
             zval ** statusesIter;
+            TarsOutputStream_reset(context_key_tmp);
+            TarsOutputStream_reset(context_value_tmp);
 
             if (zend_hash_get_current_key_ex(statusesHt, &key, &keyLen, NULL, 0, NULL) == HASH_KEY_IS_STRING) {
                 if (zend_hash_get_current_data(statusesHt, (void **)&statusesIter) == FAILURE) {
@@ -710,6 +714,8 @@ PHP_METHOD(tup,encode) {
             convert_to_string(statusesIter);
             statusVal = Z_STRVAL_P(statusesIter);
             statusLen = Z_STRLEN_P(statusesIter);
+            TarsOutputStream_reset(context_key_tmp);
+            TarsOutputStream_reset(context_value_tmp);
 
             ret = TarsOutputStream_writeStringBuffer(context_key_tmp, key, strlen(key), 0);
             if (ret) {
@@ -1253,17 +1259,13 @@ PHP_METHOD(tup,decodeReqPacket) {
     if(3 == iVersion) {
 
         TarsOutputStream_writeMap(os,((UniAttribute *)unpack)->m_data,0);
-
         len = TarsOutputStream_getLength(os);
 
         outBuff = TarsMalloc(len);
         memcpy(outBuff, TarsOutputStream_getBuffer(os), TarsOutputStream_getLength(os));
 
-
         my_add_assoc_stringl(return_value,"sBuffer",outBuff, len, 1);
-
         if(outBuff) TarsFree(outBuff);
-
     }
     else {
         len = JString_size(unpack->sBuffer);
@@ -1273,13 +1275,68 @@ PHP_METHOD(tup,decodeReqPacket) {
         my_add_assoc_stringl(return_value,"sBuffer",outBuff, len, 1);
 
         if(outBuff) TarsFree(outBuff);
-
     }
 
+    // decode context
+    zval * context_zval;
+    ALLOC_INIT_ZVAL(context_zval);
+    array_init(context_zval);
+
+    JMapWrapper * context = unpack->context;
+    int context_size = JMapWrapper_size(context);
+
+    int index;
+	for (index = 0; index < context_size; ++index)
+	{
+	    uint32_t context_key_len = JArray_getLength(context->first, index);
+	    char * context_key = JArray_getPtr(context->first, index);
+
+	    uint32_t context_value_len = JArray_getLength(context->second, index);
+        char * context_value = JArray_getPtr(context->second, index);
+
+        int context_key_len_unpacked = Tars_readStringLen(context_key);
+        char * context_key_unpacked = TarsMalloc(context_key_len_unpacked);
+        Tars_readString(context_key, context_key_unpacked);
+
+        int context_value_len_unpacked = Tars_readStringLen(context_value);
+        char * context_value_unpacked = TarsMalloc(context_value_len_unpacked);
+        Tars_readString(context_value, context_value_unpacked);
+
+	    add_assoc_stringl_ex(context_zval, context_key_unpacked, context_key_len_unpacked, context_value_unpacked, context_value_len_unpacked);
+	}
+    add_assoc_zval(return_value, "context", context_zval);
+
+    // decode status
+    zval * status_zval;
+    ALLOC_INIT_ZVAL(status_zval);
+    array_init(status_zval);
+
+    JMapWrapper * status = unpack->status;
+    int status_size = JMapWrapper_size(status);
+
+    for (index = 0; index < status_size; ++index)
+    {
+        uint32_t status_key_len = JArray_getLength(status->first, index);
+        char * status_key = JArray_getPtr(status->first, index);
+
+        uint32_t status_value_len = JArray_getLength(status->second, index);
+        char * status_value = JArray_getPtr(status->second, index);
+
+        int status_key_len_unpacked = Tars_readStringLen(status_key);
+        char * status_key_unpacked = TarsMalloc(status_key_len_unpacked);
+        Tars_readString(status_key, status_key_unpacked);
+
+        int status_value_len_unpacked = Tars_readStringLen(status_value);
+        char * status_value_unpacked = TarsMalloc(status_value_len_unpacked);
+        Tars_readString(status_value, status_value_unpacked);
+
+        add_assoc_stringl_ex(status_zval, status_key_unpacked, status_key_len_unpacked, status_value_unpacked, status_value_len_unpacked);
+
+    }
+    add_assoc_zval(return_value, "status", status_zval);
 
     if(os) TarsOutputStream_del(&os);
     if(unpack) UniPacket_del(&unpack);
-
 
     return;
 }
