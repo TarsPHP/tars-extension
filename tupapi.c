@@ -1533,7 +1533,7 @@ PHP_METHOD(tup, getFloat) {
  */
 PHP_METHOD(tup, putString) {
 
-    char * name, * buf;
+    char * name, * buf = NULL;
     int ret;
     zend_size_t name_len;
     uint32_t len;
