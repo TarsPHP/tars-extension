@@ -1,15 +1,22 @@
 [![Build Status](https://travis-ci.org/TarsPHP/tars-extension.svg?branch=master)](https://travis-ci.org/TarsPHP/tars-extension)
 
-# phptars 扩展使用说明
+# phptars extention Intrduction
 
-## php扩展能力说明
-为了在扩展中实现tars打包解包和tup编码解码的全部体系,所以php扩展主要做了三件事情:
-* 将tars的所有数据结构进行了扩展类型的映射
-* 将tars的三种复杂类型进行了特殊的扩展类型的映射
-* 提供了tup和tars协议的打包解包与编码解码的能力。
+##PHP extension capability description
 
-## 基本类型的映射
-如下是我们对基本类型的映射:
+In order to realize the whole system of tars package and unpacking and tup encoding and decoding in the extension, PHP extension mainly does three things:
+
+*All data structures of tar are mapped with extension types
+
+*Three complex types of tars are mapped with special extension types
+
+*It provides the ability of package, unpack, code and decode of tup and tar.
+
+
+
+##Mapping of basic types
+
+Here is our mapping of basic types:
 ```
     bool => \TARS::BOOL
     char => \TARS::CHAR
@@ -26,56 +33,76 @@
     map => \TARS::MAP
     struct => \TARS::STRUCT
 ```
-当我们需要标识具体的变量类型的时候,就需要用到这些基本的类型了,这些类型都是常量,从1-14。
+When we need to identify specific variable types, we need to use these basic types, which are constants, from 1-14.
 
-## 复杂类型的映射
-针对vector、map、struct三种基本的类型,有一些特殊的打包解包的机制,因此需要引入特别的数据类型:
-vector:
-```
-    vector => \TARS_VECTOR
-    它同时具有两个成员函数pushBack()和push_back()
-    入参为取决于vector本身是包含什么类型的数组
 
-	例如：
-    $shorts = ["test1","test2"];
-    $vector = new \TARS_VECTOR(\TARS::STRING); //定义一个string类型的vector
-    foreach ($shorts as $short) {
-        $vector->pushBack($short); //依次吧test1，test2两个元素，压入vector中
+
+##Mapping of complex types
+
+There are some special packaging and unpacking mechanisms for vector, map and struct. Therefore, special data types need to be introduced:
+
+Vector:
+
+` ` ` `
+
+vector => \TARS_VECTOR
+
+It has two member functions, push back() and push back()
+
+The input parameter depends on what type of array the vector itself contains
+
+
+
+For example:
+
+$shorts = ["test1","test2"];
+
+$vector = new \ tars \ vector (\ tars:: String); / / define a vector of type string
+
+foreach ($shorts as $short) {
+
+$vector - > pushback ($short); / / press test1 and test2 into vector
     }
 ```
 map:
 ```
     map => \TARS_MAP
-    它同时具有两个成员函数pushBack()和push_back()
-    入参为取决于map本身包含什么类型
+It has two member functions, push back() and push back()
 
-    例如：
+The input parameter depends on what type the map itself contains
+
+
+
+For example:
     $strings = [["test1"=>1],["test2"=>2]];
-    $map = new \TARS_MAP(\TARS::STRING,\TARS::INT64); //定义一个key为string,value是int64的map
+    $map = new \TARS_MAP(\TARS::STRING,\TARS::INT64); //define one key为string,value is int64的map
     foreach ($strings as $string) {
-        $map->pushBack($string); //依次把两个元素压入map中，注意pushBack接收一个array，且array只有一个元素
+        $map->pushBack($string); //Press two elements into the map in turn, and notice that pushback receives an array, and that array has only one element
     }
 ```
 
 struct:
 ```
     struct => \TARS_Struct
-    struct的构造函数比较特殊,接收classname和classfields两个参数
-    第一个描述名称,第二个描述struct内的变量的信息
+  The constructor of struct is special. It takes two parameters, classname and classfields
 
-   例如：
+The first describes the name, and the second describes the information of the variables in struct
+
+
+
+For example:
 	class SimpleStruct extends \TARS_Struct {
 		const ID = 0; //TARS文件中每个struct的tag
 		const COUNT = 1;
 
-		public $id; //strcut中每个元素的值保存在这里
+		public $id; //strcut The value of each element is saved here
 		public $count; 
 
 		protected static $fields = array(
 			self::ID => array(
-				'name'=>'id',//struct中每个元素的名称
-				'required'=>true,//struct中每个元素是否必须，对应tars文件中的require和optional
-				'type'=>\TARS::INT64,//struct中每个元素的类型
+				'name'=>'id',//struct The value of each element is saved here
+				'required'=>true,//struct Whether each element is required, corresponding to the require and optional in the tars file
+				'type'=>\TARS::INT64,//struct every element type
 				),
 			self::COUNT => array(
 				'name'=>'count',
@@ -91,37 +118,67 @@ struct:
    
 ```
 
-## 打包解包与编码解码
-作为扩展的核心功能,就是提供tars的编解码和打包解包的能力:
+##Package and unpack and code decoding
 
-### 打包解包
-```
-// 针对基本类型的打包和解包的方法,输出二进制buf
-// iVersion只有1和3两个版本，1版本时$nameOrTagNum需要传入tagNum,方法里面第一个参数为1第二个参数为2以此类推
-// 3版本时$nameOrTagNum需要传入name,参数名
+As the core function of the extension, it provides the ability of coding, decoding, packaging and unpacking of tars
+
+
+
+###Pack and unpack
+
+` ` ` `
+
+//Output binary buf for basic types of packaging and unpacking methods
+
+//There are only 1 and 3 versions of iversion. In version 1, $nameortagnum needs to be passed in tagnum, the first parameter in the method is 1, the second parameter is 2, and so on
+
+//In version 3, $nameortagnum needs to pass in name and parameter name
+
 $buf = \TASAPI::put*($nameOrTagNum, $value, $iVersion = 3)
+
 $value = \TUPAPI::get*($nameOrTagNum, $buf, $isRequire = false, $iVersion = 3)
 
-// 针对struct,传输对象,返回结果的时候,以数组的方式返回,其元素与类的成员变量一一对应
+
+
+//For struct, when the object is transferred and the result is returned, it is returned in the form of an array. Its elements correspond to the member variables of the class one by one
+
 $buf = \TUPAPI::putStruct($nameOrTagNum, $clazz, $iVersion = 3)
+
 $result = \TUPAPI::getStruct($nameOrTagNum, $clazz, $buf, $isRequire = false, $iVersion = 3)
 
-// 针对vector,传入完成pushBack的vector
+
+
+//For vector, pass in the vector that completes pushback
+
 $buf = \TUPAPI::putVector($nameOrTagNum, TARS_Vector $clazz, $iVersion = 3)
+
 $value = \TUPAPI::getVector($nameOrTagNum, TARS_Vector $clazz, $buf, $isRequire = false, $iVersion = 3)
 
-// 针对map,传入完成pushBack的map
+
+
+//For map, pass in the map to complete pushback
+
 $buf = \TUPAPI::putMap($nameOrTagNum, TARS_Map $clazz, $iVersion = 3)
+
 $value = \TUPAPI::getMap($nameOrTagNum, TARS_Map $clazz, $buf, $isRequire = false, $iVersion = 3)
 
-// 需要将上述打好包的数据放在一起用来编码
+
+
+//You need to put the above packed data together for coding
+
 $inbuf_arr[$nameOrTagNum] = $buf
-```
-### 编码解码
-```
-//针对tup协议(iVersion=3)的情况：
-//这种情况下客户端发包用encode编码，服务端收包用decode解码，服务端回包用encode编码，客户端收包用decode解码
-// 进行tup协议的编码,返回结果可以用来传输、持久化
+
+` ` ` `
+
+###Encoding and decoding
+
+` ` ` `
+
+//For the case of tup protocol (iversion = 3):
+
+//In this case, the client uses encode code to send the contract, the server uses decode to decode the received package, the server uses encode to encode the returned package, and the client uses decode to decode the received package
+
+//Code the tup protocol, and the returned results can be used for transmission and persistence
 $reqBuffer = \TUPAPI::encode(
                          $iVersion = 3,
                          $iRequestId,
@@ -133,15 +190,18 @@ $reqBuffer = \TUPAPI::encode(
                          $context=[],
                          $statuses=[],
                          $bufs)
-// 进行tup协议的解码
+// Decoding the tup protocol
 $ret = \TUPAPI::decode($respBuffer, $iVersion = 3)
 $code = $ret['iRet']
 $buf = $ret['sBuffer']
 
-//针对tars协议(iVersion=1)的情况：
-//这种情况下客户端发包用encode编码，服务端收包用decodeReqPacket解码，服务端回包用encodeRspPacket编码，客户端收包用decode解码
+//For the tar protocol (iversion = 1):
 
-//客户端发包
+//In this case, the client uses encode to code the contract, the server uses decodereqpacket to decode the received package, the server uses encoderssppacket to encode the returned package, and the client uses decode to decode the received package
+
+
+
+//Client contract
 $reqBuffer = \TUPAPI::encode(
                          $iVersion = 1,
                          $iRequestId,
@@ -153,12 +213,12 @@ $reqBuffer = \TUPAPI::encode(
                          $context=[],
                          $statuses=[],
                          $bufs)
-//服务端收包，解包
+//Server receiving and unpacking
 $ret = \TUPAPI::decodeReqPacket($respBuffer)
 $code = $ret['iRet']
 $buf = $ret['sBuffer']
 
-//服务端回包，打包encodeRspPacket
+//Service end return package encodeRspPacket
 $reqBuffer = \TUPAPI::encodeRspPacket(
                          $iVersion = 1,
                          $cPacketType,
@@ -169,34 +229,58 @@ $reqBuffer = \TUPAPI::encodeRspPacket(
                          $bufs,
                          $statuses=[])
                          
-//客户端收包，解包
+//Client receiving and unpacking
 $ret = \TUPAPI::decode($respBuffer, $iVersion = 1)
 $code = $ret['iRet']
 $buf = $ret['sBuffer']
 ```
 
-对于不同类型的结构的打包解包的更丰富的使用请参考tests/
+For more extensive use of different types of structures, please refer to tests/
 
-## tars2php（自动生成php类工具）使用说明
-请参见tars2php模块下的文档说明:
-[详细说明](https://github.com/TarsPHP/tars2php/blob/master/README.md)
 
-## 测试用例
 
-### phpunite版本的测试用例
-针对扩展的常见使用,增加了测试用例,位于/ext/testcases文件夹下,
-测试时只需要执行`php phpunit-4.8.36.phar test.php` 即可完成所有测试用例的执行。其中覆盖到了:
-* 所有基本类型的打包解包和编码的测试
-* 简单struct类型打包解包和编码的测试
-* 简单vector类型的打包解包和编码的测试
-* 简单map类型的打包解包和编码的测试
-* 复杂vector类型(包含非基本数据类型)的打包解包和编码的测试
-* 复杂map类型(包含非基本数据类型)的打包解包和编码的测试
-* 复杂struct类型(嵌套vector和map)的打包解包和编码的测试
+##Instructions for using tars2php
 
-另外testTARSClient.php和testTARSServer.php是tars协议（iVersion=1）情况下客户端发包，服务端解包 和 服务端回包，客户端解包的测试用例。
+Please refer to the documentation under the tars2php module:
 
-注意，需要自行下载phpunit的可执行文件，或直接使用预先安装好的phpunit工具，进行单元测试。
+[detailed description] (https://github.com/tarphp/tars2php/blob/master/readme.md)
 
-### 同时指出phpt版本的测试用例
-安装完成扩展后，执行make test即可。
+
+
+##Test case
+
+
+
+###Test case of phpunite version
+
+For the common use of extensions, test cases are added, which are located in the / ext / testcases folder,
+
+When testing, you only need to execute `php phpunit-4.8.36.phar test.php` to complete the execution of all test cases. It covers:
+
+*All basic types of packaging, unpacking and coding tests
+
+*Test of simple struct type package, unpacking and coding
+
+*Test of simple vector type package, unpack and code
+
+*The test of package, unpack and code of simple map type
+
+*Test of packaging, unpacking and encoding of complex vector types (including non basic data types)
+
+*Test of packaging, unpacking and encoding of complex map types (including non basic data types)
+
+*Package, unpack and code test of complex struct types (nested vector and map)
+
+
+
+In addition, testtarsclient.php and testtarsserver.php are the test cases of client contracting, server unpacking, server callback and client unpacking under the tars protocol (iversion = 1).
+
+
+
+Note that you need to download phpunit's executable or use the pre installed phpunit tool directly for unit testing.
+
+
+
+###At the same time, it points out the test cases of PHPT version
+
+After the extension is installed, execute make test.
