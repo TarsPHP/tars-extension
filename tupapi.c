@@ -1462,7 +1462,7 @@ PHP_METHOD(tup, putUInt32) {
     type i = 0; \
     __TUP_GET(type, &i); \
     if (i >= LONG_MIN && i <= LONG_MAX) { \
-        RETURN_LONG(i);
+        RETURN_LONG(i); \
     } else { \
         char  ll[32]; \
         int len; \
