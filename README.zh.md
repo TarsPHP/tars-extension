@@ -183,7 +183,7 @@ $buf = $ret['sBuffer']
 
 ## 测试用例
 
-### phpunite版本的测试用例
+### phpunit版本的测试用例
 针对扩展的常见使用,增加了测试用例,位于/ext/testcases文件夹下,
 测试时只需要执行`php phpunit-4.8.36.phar test.php` 即可完成所有测试用例的执行。其中覆盖到了:
 * 所有基本类型的打包解包和编码的测试
