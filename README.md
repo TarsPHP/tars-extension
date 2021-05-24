@@ -12,19 +12,20 @@
 
 ```shell
 cd /root/ && \
-wget https://github.com/lanlin/phptars-php8/archive/refs/tags/v2.3.0.tar.gz && \
-tar -zxvf v2.3.0.tar.gz && \
-cd ./phptars-php8/ && \
+wget https://github.com/lanlin/phptars-php8/archive/refs/tags/2.3.0.tar.gz && \
+tar -zxvf 2.3.0.tar.gz && \
+cd ./phptars-php8-2.3.0/ && \
 phpize --clean && \
 phpize && \
 ./configure --enable-phptars && \
 make clean && \
 make && \
+make test && \
 make install && \
 mkdir -p /root/phptars && \
 cp ./tars2php.php /root/phptars && \
 cd /root/ && \
-rm -rf ./phptars-php8
+rm -rf ./phptars-php8*
 ```
 
 最后将 `extension=phptars.so` 添加到你的 `php.ini` 中即可。
