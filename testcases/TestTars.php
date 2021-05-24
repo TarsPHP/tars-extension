@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: liangchen
- * Date: 2017/6/16
- * Time: 下午6:15.
- */
 use PHPUnit\Framework\TestCase;
 
 require_once 'SimpleStruct.php';
 require_once 'NestedStruct.php';
 require_once 'AllTypeStruct.php';
 
-class TarsTest extends TestCase
+class TestTars extends TestCase
 {
     public $iVersion = 3;
     public $iRequestId = 1;
@@ -26,8 +20,7 @@ class TarsTest extends TestCase
     public function testBool()
     {
         $bool = true;
-
-        $buf = \TUPAPI::putBool('bool', $bool);
+        $buf  = \TUPAPI::putBool('bool', $bool);
 
         $encodeBufs['bool'] = $buf;
 
@@ -36,8 +29,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getBool('bool', $respBuf);
@@ -58,8 +52,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getBool('bool1', $respBuf);
@@ -70,7 +65,6 @@ class TarsTest extends TestCase
     public function testChar()
     {
         $char = 1;
-
         $buf = \TUPAPI::putChar('char', $char);
 
         $encodeBufs['char'] = $buf;
@@ -80,8 +74,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getChar('char', $respBuf);
@@ -124,8 +119,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getChar('char', $respBuf);
@@ -146,8 +142,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getChar('char', $respBuf);
@@ -168,8 +165,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getChar('char', $respBuf);
@@ -190,8 +188,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getChar('char', $respBuf);
@@ -212,8 +211,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getChar('char', $respBuf);
@@ -234,8 +234,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getUInt8('uint8', $respBuf);
@@ -256,8 +257,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getUInt8('uint811', $respBuf);
@@ -278,8 +280,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getShort('short', $respBuf);
@@ -300,8 +303,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getShort('short1', $respBuf);
@@ -322,8 +326,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getUInt16('uint16', $respBuf);
@@ -344,8 +349,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getUInt16('uint1611', $respBuf);
@@ -366,8 +372,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getInt32('int32', $respBuf);
@@ -388,8 +395,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getInt32('int3211', $respBuf);
@@ -410,8 +418,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getUInt32('uint32', $respBuf);
@@ -432,8 +441,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getUInt32('uint32111', $respBuf);
@@ -454,8 +464,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getInt64('int64', $respBuf);
@@ -476,8 +487,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getInt64('int6411', $respBuf);
@@ -498,8 +510,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getDouble('double', $respBuf);
@@ -520,8 +533,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getDouble('double11', $respBuf);
@@ -542,13 +556,14 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getFloat('float', $respBuf);
 
-        $this->assertEquals((float) $float, (float) $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta((float) $float, (float) $out, 0.0000001);
     }
 
     public function testDefaultFloat()
@@ -564,13 +579,14 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getFloat('float111', $respBuf);
 
-        $this->assertEquals((float) $float, (float) $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta((float) $float, (float) $out, 0.0000001);
     }
 
     public function testString()
@@ -586,8 +602,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getString('string', $respBuf);
@@ -628,8 +645,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getString('string', $respBuf);
@@ -650,8 +668,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $out = \TUPAPI::getString('string111', $respBuf);
@@ -676,8 +695,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $v = new \TARS_VECTOR(\TARS::STRING);
@@ -704,8 +724,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
         $v = new \TARS_VECTOR(\TARS::STRING);
         $out = \TUPAPI::getVector('vec111', $v, $respBuf);
@@ -730,8 +751,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $v = new \TARS_VECTOR(\TARS::CHAR);
@@ -753,8 +775,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $vector = new \TARS_VECTOR(\TARS::STRING);
@@ -813,7 +836,7 @@ class TarsTest extends TestCase
 
         $okData = [123 => 1.1];
 
-        $this->assertEquals($okData, $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta($okData, $out, 0.0000001);
     }
 
     public function testSimpleMapOtherType2()
@@ -838,7 +861,7 @@ class TarsTest extends TestCase
 
         $okData = [123 => 1.1];
 
-        $this->assertEquals($okData, $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta($okData, $out, 0.0000001);
     }
 
     public function testSimpleMapOtherType3()
@@ -863,7 +886,7 @@ class TarsTest extends TestCase
 
         $okData = [123 => 1.1];
 
-        $this->assertEquals($okData, $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta($okData, $out, 0.0000001);
     }
 
     public function testMapInMap()
@@ -1080,8 +1103,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $outSimpleStruct = new SimpleStruct();
@@ -1106,8 +1130,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $outSimpleStruct = new SimpleStruct();
@@ -1146,8 +1171,9 @@ class TarsTest extends TestCase
             $this->contexts, $this->statuses, $encodeBufs);
 
         $decodeRet = \TUPAPI::decode($requestBuf);
-        if ($decodeRet['status'] !== 0) {
-        }
+
+        $this->assertTrue($decodeRet['status'] === 0);
+
         $respBuf = $decodeRet['sBuffer'];
 
         $allTypeStruct->vecchar = 'ta';
@@ -1156,7 +1182,7 @@ class TarsTest extends TestCase
         $result = \TUPAPI::getStruct('struct', $outAllTypeStruct, $respBuf);
         $this->fromArray($result, $outAllTypeStruct);
 
-        $this->assertEquals($allTypeStruct, $outAllTypeStruct, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta($allTypeStruct, $outAllTypeStruct, 0.0000001);
     }
 
     public function testMapInVector()

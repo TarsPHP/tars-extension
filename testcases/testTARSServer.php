@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: liangchen
- * Date: 2017/6/16
- * Time: 下午6:15.
- */
 use PHPUnit\Framework\TestCase;
 
 require_once 'SimpleStruct.php';
 require_once 'NestedStruct.php';
 
-class TarsTest extends TestCase
+class TestTarsServer extends TestCase
 {
     public $iVersion = 1;
     public $iRequestId = 1;
@@ -420,7 +414,7 @@ class TarsTest extends TestCase
 
         $out = \TUPAPI::getFloat('1', $respBuf, true, $this->iVersion);
 
-        $this->assertEquals((float) $float, (float) $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta((float) $float, (float) $out, 0.0000001);
     }
 
     public function testDefaultFloat()
@@ -441,7 +435,7 @@ class TarsTest extends TestCase
 
         $out = \TUPAPI::getFloat('2', $respBuf, false, $this->iVersion);
 
-        $this->assertEquals((float) $float, (float) $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta((float) $float, (float) $out, 0.0000001);
     }
 
     public function testString()

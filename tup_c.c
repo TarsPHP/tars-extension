@@ -8,12 +8,12 @@
 #include "./include/php_tupapi.h"
 #include "./include/ttars.h"
 
-static Int32 TUP_putAttributeV3(UniAttribute *pack, const char * name, const char * type, TarsOutputStream * data_value)
+static Int32 TUP_putAttributeV3(UniAttribute *pack, const char *name, const char *type, TarsOutputStream *data_value)
 {
 	Int32 ret = 0;
 	TarsOutputStream *os_map_first=NULL, *os_map_second=NULL;
 
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 
 	os_map_first = TarsOutputStream_new();
 	os_map_second= TarsOutputStream_new();
@@ -55,10 +55,11 @@ static Int32 TUP_putAttributeV3(UniAttribute *pack, const char * name, const cha
 	return ret;
 
 }
-Int32 TUP_putBool(void * pack, const char * name, Bool value)
+
+Int32 TUP_putBool(void *pack, const char *name, Bool value)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeBool(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -66,10 +67,10 @@ Int32 TUP_putBool(void * pack, const char * name, Bool value)
 	return TUP_putAttributeV3(pack, name, "bool", attr->value_os);
 }
 
-Int32 TUP_putChar  (void * pack, const char * name, Char value)
+Int32 TUP_putChar(void *pack, const char *name, Char value)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeChar(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -77,10 +78,10 @@ Int32 TUP_putChar  (void * pack, const char * name, Char value)
 	return TUP_putAttributeV3(pack, name, "char", attr->value_os);
 }
 
-Int32 TUP_putUInt8  (void * pack, const char * name, UInt8 value)
+Int32 TUP_putUInt8(void *pack, const char *name, UInt8 value)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeUInt8(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -88,10 +89,10 @@ Int32 TUP_putUInt8  (void * pack, const char * name, UInt8 value)
 	return TUP_putAttributeV3(pack, name, "uint8", attr->value_os);
 }
 
-Int32 TUP_putShort  (void * pack, const char * name, Short value)
+Int32 TUP_putShort(void *pack, const char *name, Short value)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeShort(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -99,10 +100,10 @@ Int32 TUP_putShort  (void * pack, const char * name, Short value)
 	return TUP_putAttributeV3(pack, name, "short", attr->value_os);
 }
 
-Int32 TUP_putUInt16 (void * pack, const char * name, UInt16 value)
+Int32 TUP_putUInt16(void *pack, const char *name, UInt16 value)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeUInt16(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -110,10 +111,10 @@ Int32 TUP_putUInt16 (void * pack, const char * name, UInt16 value)
 	return TUP_putAttributeV3(pack, name, "uint16", attr->value_os);
 }
 
-Int32 TUP_putFloat  (void * pack, const char * name, Float value)
+Int32 TUP_putFloat(void *pack, const char *name, Float value)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeFloat(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -121,10 +122,10 @@ Int32 TUP_putFloat  (void * pack, const char * name, Float value)
 	return TUP_putAttributeV3(pack, name, "float", attr->value_os);
 }
 
-Int32 TUP_putDouble(void * pack, const char * name, Double value)
+Int32 TUP_putDouble(void *pack, const char *name, Double value)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeDouble(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -132,10 +133,10 @@ Int32 TUP_putDouble(void * pack, const char * name, Double value)
 	return TUP_putAttributeV3(pack, name, "double", attr->value_os);
 }
 
-Int32 TUP_putInt32 (void * pack, const char * name, Int32  value)
+Int32 TUP_putInt32(void *pack, const char *name, Int32  value)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeInt32(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -143,10 +144,10 @@ Int32 TUP_putInt32 (void * pack, const char * name, Int32  value)
 	return TARS_SUCCESS;
 }
 
-Int32 TUP_putUInt32	(void * pack, const char * name, UInt32 value)
+Int32 TUP_putUInt32(void *pack, const char *name, UInt32 value)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeUInt32(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -154,11 +155,10 @@ Int32 TUP_putUInt32	(void * pack, const char * name, UInt32 value)
 	return TARS_SUCCESS;
 }
 
-
-Int32 TUP_putInt64 (void * pack, const char * name, Int64  value)
+Int32 TUP_putInt64(void *pack, const char *name, Int64  value)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	TarsOutputStream_writeInt64(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -166,15 +166,15 @@ Int32 TUP_putInt64 (void * pack, const char * name, Int64  value)
 	return TARS_SUCCESS;
 }
 
-Int32 TUP_putString(void * pack, const char * name, JString * value)
+Int32 TUP_putString(void *pack, const char *name, JString *value)
 {
 	return TUP_putStringBuffer(pack, name, JString_data(value), JString_size(value));
 }
 
-Int32 TUP_putStringBuffer(void * pack, const char * name, const char* buff, uint32_t len)
+Int32 TUP_putStringBuffer(void *pack, const char *name, const char *buff, uint32_t len)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeStringBuffer(attr->value_os, buff, len, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -182,12 +182,12 @@ Int32 TUP_putStringBuffer(void * pack, const char * name, const char* buff, uint
 	return TUP_putAttributeV3(pack, name, "string", attr->value_os);
 }
 
-Int32 TUP_putVector(void * pack, const char * name, JArray * value)
+Int32 TUP_putVector(void *pack, const char *name, JArray *value)
 {
 	Int32 ret=0;
 	char sType[64+1]={0};
 
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeVector(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -195,16 +195,16 @@ Int32 TUP_putVector(void * pack, const char * name, JArray * value)
 	return  TARS_SUCCESS;
 }
 
-Int32 TUP_putVectorChar(void * pack, const char * name,  JString* value)
+Int32 TUP_putVectorChar(void *pack, const char *name,  JString *value)
 {
 	return TUP_putVectorCharBuffer(pack, name, JString_data(value), JString_size(value));
 }
 
-Int32 TUP_putVectorCharBuffer(void * pack, const char * name,  const char* buff, uint32_t len)
+Int32 TUP_putVectorCharBuffer(void *pack, const char *name,  const char *buff, uint32_t len)
 {
 	Int32 ret=0;
 
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeVectorCharBuffer(attr->value_os, buff, len, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -212,12 +212,12 @@ Int32 TUP_putVectorCharBuffer(void * pack, const char * name,  const char* buff,
 	return  TARS_SUCCESS;
 }
 
-Int32 TUP_putMap(void * pack, const char * name, JMapWrapper * value)
+Int32 TUP_putMap(void *pack, const char *name, JMapWrapper *value)
 {
 	Int32 ret=0;
 	char sType[64+1]={0};
 
-	UniAttribute * attr = pack;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	ret = TarsOutputStream_writeMap(attr->value_os, value, 0);
 	if (TARS_SUCCESS != ret)	return ret;
@@ -225,11 +225,11 @@ Int32 TUP_putMap(void * pack, const char * name, JMapWrapper * value)
 	return TARS_SUCCESS;
 }
 
-Int32 TUP_putStruct(void * pack, const char * name, const void* st)
+Int32 TUP_putStruct(void *pack, const char *name, const void *st)
 {
 	Int32 ret=0;
-	const JStructBase * jst = st;
-	UniAttribute * attr = pack;
+	const JStructBase *jst = st;
+	UniAttribute *attr = pack;
 	TarsOutputStream_reset(attr->value_os);
 	// value_os中写入结构体，但是似乎之后没有用到？
 	// 不对，就在下面的最后一个参数，用到了。
@@ -238,14 +238,14 @@ Int32 TUP_putStruct(void * pack, const char * name, const void* st)
 	return TUP_putAttributeV3(pack, name, jst->className, attr->value_os);
 }
 
-static Int32 TUP_getAttributeV3(const UniAttribute *pack, const char * name, JString ** s, Bool is_require)
+static Int32 TUP_getAttributeV3(const UniAttribute *pack, const char *name, JString **s, Bool is_require)
 {
 	Int32 ret = 0;
-	char * pBuff = NULL;
+	char *pBuff = NULL;
 	uint32_t len = 0;
 	TarsInputStream *is_vectorchar;
 
-	const UniAttribute * attr = pack;
+	const UniAttribute *attr = pack;
 
 	is_vectorchar = TarsInputStream_new();
 
@@ -290,10 +290,10 @@ static Int32 TUP_getAttributeV3(const UniAttribute *pack, const char * name, JSt
 }
 
 //get
-Int32 TUP_getBool  (const void * pack, const char * name, Bool* value, Bool is_require)
+Int32 TUP_getBool(const void *pack, const char *name, Bool *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
 
 	//s = JString_new();
@@ -314,10 +314,10 @@ Int32 TUP_getBool  (const void * pack, const char * name, Bool* value, Bool is_r
 	return ret;
 }
 
-Int32 TUP_getChar  (const void * pack, const char * name, Char* value, Bool is_require)
+Int32 TUP_getChar(const void *pack, const char *name, Char *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
 
 	//s = JString_new();
@@ -338,10 +338,10 @@ Int32 TUP_getChar  (const void * pack, const char * name, Char* value, Bool is_r
 	return ret;
 }
 
-Int32 TUP_getUInt8	(const void * pack, const char * name, UInt8 * value, Bool is_require)
+Int32 TUP_getUInt8(const void *pack, const char *name, UInt8 *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
 
 	ret = TUP_getAttributeV3(pack, name, &s, is_require);
@@ -359,14 +359,11 @@ do_clean:
 	return ret;
 }
 
-Int32 TUP_getShort	(const void * pack, const char * name, Short * value, Bool is_require)
+Int32 TUP_getShort(const void *pack, const char *name, Short *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
-
-	//s = JString_new();
-	//if(!s) return TARS_MALLOC_ERROR;
 
 	ret = TUP_getAttributeV3(pack, name, &s, is_require);
 	if (TARS_SUCCESS != ret)	goto do_clean;
@@ -383,10 +380,10 @@ Int32 TUP_getShort	(const void * pack, const char * name, Short * value, Bool is
 	return ret;
 }
 
-Int32 TUP_getUInt16	(const void * pack, const char * name, UInt16 * value, Bool is_require)
+Int32 TUP_getUInt16(const void *pack, const char *name, UInt16 *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
 
 	ret = TUP_getAttributeV3(pack, name, &s, is_require);
@@ -404,14 +401,11 @@ do_clean:
 	return ret;
 }
 
-Int32 TUP_getFloat (const void * pack, const char * name, Float* value, Bool is_require)
+Int32 TUP_getFloat (const void *pack, const char *name, Float *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
-
-	//s = JString_new();
-	//if(!s) return TARS_MALLOC_ERROR;
 
 	ret = TUP_getAttributeV3(pack, name, &s, is_require);
 	if (TARS_SUCCESS != ret)	goto do_clean;
@@ -428,14 +422,11 @@ Int32 TUP_getFloat (const void * pack, const char * name, Float* value, Bool is_
 	return ret;
 }
 
-Int32 TUP_getDouble(const void * pack, const char * name, Double* value, Bool is_require)
+Int32 TUP_getDouble(const void *pack, const char *name, Double *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
-
-	//s = JString_new();
-	//if(!s) return TARS_MALLOC_ERROR;
 
 	ret = TUP_getAttributeV3(pack, name, &s, is_require);
 	if (TARS_SUCCESS != ret)	goto do_clean;
@@ -452,10 +443,10 @@ Int32 TUP_getDouble(const void * pack, const char * name, Double* value, Bool is
 	return ret;
 }
 
-Int32 TUP_getInt32 (const void * pack, const char * name, Int32*  value, Bool is_require)
+Int32 TUP_getInt32(const void *pack, const char *name, Int32 *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
 
 	ret = TUP_getAttributeV3(pack, name, &s, is_require);
@@ -473,10 +464,10 @@ Int32 TUP_getInt32 (const void * pack, const char * name, Int32*  value, Bool is
 	return ret;
 }
 
-Int32 TUP_getUInt32	(const void * pack, const char * name, UInt32 * value, Bool is_require)
+Int32 TUP_getUInt32(const void *pack, const char *name, UInt32 *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
 
 	ret = TUP_getAttributeV3(pack, name, &s, is_require);
@@ -494,10 +485,10 @@ do_clean:
 	return ret;
 }
 
-Int32 TUP_getInt64 (const void * pack, const char * name, Int64*  value, Bool is_require)
+Int32 TUP_getInt64(const void *pack, const char *name, Int64 *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
 
 	ret = TUP_getAttributeV3(pack, name, &s, is_require);
@@ -516,14 +507,11 @@ Int32 TUP_getInt64 (const void * pack, const char * name, Int64*  value, Bool is
 }
 
 
-Int32 TUP_getString(const void * pack, const char * name, JString * value, Bool is_require)
+Int32 TUP_getString(const void *pack, const char *name, JString *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
-
-	//s = JString_new();
-	//if(!s) return TARS_MALLOC_ERROR;
 
 	ret = TUP_getAttributeV3(pack, name, &s, is_require);
 	if (TARS_SUCCESS != ret)	goto do_clean;
@@ -540,10 +528,10 @@ Int32 TUP_getString(const void * pack, const char * name, JString * value, Bool 
 	return ret;
 }
 
-Int32 TUP_getVector(const void * pack, const char * name, JArray * value, Bool is_require)
+Int32 TUP_getVector(const void *pack, const char *name, JArray *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	char sType[64+1]={0};
 	Int32 ret;
 
@@ -562,10 +550,10 @@ Int32 TUP_getVector(const void * pack, const char * name, JArray * value, Bool i
 	return ret;
 }
 
-Int32 TUP_getVectorChar(const void * pack, const char * name, JString * value, Bool is_require)
+Int32 TUP_getVectorChar(const void *pack, const char *name, JString *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
 
 	ret = TUP_getAttributeV3(pack, name, &s, is_require);
@@ -583,10 +571,10 @@ Int32 TUP_getVectorChar(const void * pack, const char * name, JString * value, B
 	return ret;
 }
 
-Int32 TUP_getMap   (const void * pack, const char * name, JMapWrapper * value, Bool is_require)
+Int32 TUP_getMap(const void *pack, const char *name, JMapWrapper *value, Bool is_require)
 {
 	JString *s = NULL;
-	const UniAttribute * attr;
+	const UniAttribute *attr;
 	Int32 ret;
 	char sType[64+1]={0};
 
@@ -607,9 +595,9 @@ Int32 TUP_getMap   (const void * pack, const char * name, JMapWrapper * value, B
 
 ///////////////////////////////////////////////////////////////
 
-void UniAttribute_del(UniAttribute ** handle)
+void UniAttribute_del(UniAttribute **handle)
 {
-	UniAttribute ** thiz = (UniAttribute **)handle;
+	UniAttribute **thiz = (UniAttribute **)handle;
 	if (thiz == NULL || *thiz == NULL) return;
 
 	if ((*handle)->_data)	JMapWrapper_del(&((*handle)->_data));
@@ -624,7 +612,7 @@ void UniAttribute_del(UniAttribute ** handle)
 
 Int32 UniAttribute_init(UniAttribute *handle)
 {
-	UniAttribute * thiz = (UniAttribute*) handle;
+	UniAttribute *thiz = (UniAttribute*) handle;
 
 	thiz->_data     = JMapWrapper_new("string", "map<string,list<char>>");
 	thiz->value_os  = TarsOutputStream_new();
@@ -645,7 +633,7 @@ Int32 UniAttribute_init(UniAttribute *handle)
 }
 
 
-UniAttribute * UniAttribute_new()
+UniAttribute *UniAttribute_new()
 {
 	Int32 ret=0;
 	UniAttribute *thiz = (UniAttribute*)TarsMalloc(sizeof(UniAttribute));
@@ -663,7 +651,7 @@ UniAttribute * UniAttribute_new()
 
 ///////////////////////////////////////////////////////////////
 
-Int32 UniPacket_encode(const UniPacket * pack, TarsOutputStream *os_tmp)
+Int32 UniPacket_encode(const UniPacket *pack, TarsOutputStream *os_tmp)
 {
     Int32 ret;
 
@@ -681,9 +669,9 @@ Int32 UniPacket_encode(const UniPacket * pack, TarsOutputStream *os_tmp)
     return ret;
 }
 
-Int32 UniPacket_decode(UniPacket * pack, const char* buff, uint32_t len)
+Int32 UniPacket_decode(UniPacket *pack, const char *buff, uint32_t len)
 {
-	TarsInputStream  *is;
+	TarsInputStream *is;
 	Int32 ret;
 
 	if (len < sizeof(Int32))
@@ -723,9 +711,9 @@ do_exit:
 	return ret;
 }
 
-void UniPacket_del(UniPacket ** handle)
+void UniPacket_del(UniPacket **handle)
 {
-	UniPacket ** thiz = (UniPacket**)handle;
+	UniPacket **thiz = (UniPacket**)handle;
 	if (handle == NULL || *handle == NULL) return;
 
 	if ((*thiz)->sServantName)	JString_del(&(*thiz)->sServantName);
@@ -749,7 +737,7 @@ Int32 UniPacket_init(UniPacket *handle)
 {
 	Int32 ret;
 
-	UniPacket * thiz = (UniPacket*) handle;
+	UniPacket *thiz = (UniPacket*) handle;
 
 	ret = UniAttribute_init((UniAttribute*)thiz);
 	if (ret) return ret;
@@ -781,7 +769,7 @@ Int32 UniPacket_init(UniPacket *handle)
 
 }
 
-UniPacket * UniPacket_new()
+UniPacket *UniPacket_new()
 {
 	Int32 ret;
 	UniPacket *thiz = (UniPacket*)TarsMalloc(sizeof(UniPacket));
@@ -809,17 +797,17 @@ void UniPacket_setRequestId(UniPacket *handle, Int32 value)
 	handle->iRequestId = value;
 }
 
-const char* UniPacket_getServantName(UniPacket *handle)
+const char *UniPacket_getServantName(UniPacket *handle)
 {
 	return JString_data(handle->sServantName);
 }
 
-void  UniPacket_setServantName(UniPacket *handle, const char*value)
+void  UniPacket_setServantName(UniPacket *handle, const char *value)
 {
 	JString_assign(handle->sServantName, value, strlen((const char*)value));
 }
 
-const char* UniPacket_getFuncName(UniPacket *handle)
+const char *UniPacket_getFuncName(UniPacket *handle)
 {
 	if (handle != NULL) {
 		return JString_data(handle->sFuncName);
@@ -828,17 +816,17 @@ const char* UniPacket_getFuncName(UniPacket *handle)
 	return NULL;
 }
 
-void UniPacket_setFuncName(UniPacket *handle, const char*value)
+void UniPacket_setFuncName(UniPacket *handle, const char *value)
 {
 	JString_assign(handle->sFuncName, value, strlen((const char*)value));
 }
 
 /* ====================== for php only ===================== */
-Int32 php_TUP_putStruct(void * pack, const char * name, void * st)
+Int32 php_TUP_putStruct(void *pack, const char *name, void *st)
 {
 	Int32 ret=0;
-	UniAttribute * attr = pack;
-	zval * clazz = st;
+	UniAttribute *attr = pack;
+	zval *clazz = st;
 	TarsOutputStream_reset(attr->value_os);
 
 	ret = struct_packer(NULL,attr->value_os, 0, clazz);
@@ -848,14 +836,14 @@ Int32 php_TUP_putStruct(void * pack, const char * name, void * st)
 }
 
 
-Int32 php_TUP_getStruct(void * pack, const char * name, void * st,void ** ret_val, Bool is_require)
+Int32 php_TUP_getStruct(void *pack, const char *name, void *st,void **ret_val, Bool is_require)
 {
 
 	Int32 ret=0;
-	UniAttribute * att = pack;
-	zval *struct_name, * clazz = st;
+	UniAttribute *att = pack;
+	zval *struct_name, *clazz = st;
 
-	JString * js = NULL;
+	JString *js = NULL;
 	do {
 		ret = TUP_getAttributeV3(att, name, &js, is_require);
 		if (ret != TARS_SUCCESS) break;
@@ -869,10 +857,10 @@ Int32 php_TUP_getStruct(void * pack, const char * name, void * st,void ** ret_va
 	return ret;
 }
 
-Int32 Unipacket_getStatus(UniPacket* unpack,JString *tmp) {
+Int32 Unipacket_getStatus(UniPacket *unpack,JString *tmp) {
 
 	Int32 ret = 0;
-	char * pBuff = NULL;
+	char *pBuff = NULL;
 	uint32_t len = 0;
 	TarsInputStream *is_string;
 
@@ -905,10 +893,10 @@ Int32 Unipacket_getStatus(UniPacket* unpack,JString *tmp) {
 	return ret;
 }
 
-Int32 Unipacket_getDesc(UniPacket* unpack,JString **tmp) {
+Int32 Unipacket_getDesc(UniPacket *unpack,JString **tmp) {
 
 	Int32 ret = 0;
-	char * pBuff = NULL;
+	char *pBuff = NULL;
 	uint32_t len = 0;
 	TarsInputStream *is_string;
 
@@ -943,7 +931,7 @@ Int32 Unipacket_getDesc(UniPacket* unpack,JString **tmp) {
 
 /*for response packet*/
 
-Int32 ResponsePacket_decode(ResponsePacket * pack, const char* buff, uint32_t len)
+Int32 ResponsePacket_decode(ResponsePacket *pack, const char *buff, uint32_t len)
 {
 	TarsInputStream  *is;
 	Int32 ret;
@@ -975,9 +963,9 @@ do_exit:
 	return ret;
 }
 
-void ResponsePacket_del(ResponsePacket ** handle)
+void ResponsePacket_del(ResponsePacket **handle)
 {
-	ResponsePacket ** thiz = (ResponsePacket**)handle;
+	ResponsePacket **thiz = (ResponsePacket**)handle;
 	if (handle == NULL || *handle == NULL) return;
 
 	if ((*thiz)->sResultDesc)	JString_del(&(*thiz)->sResultDesc);
@@ -999,7 +987,7 @@ Int32 ResponsePacket_init(ResponsePacket *handle)
 {
 	Int32 ret;
 
-	ResponsePacket * thiz = (ResponsePacket*) handle;
+	ResponsePacket *thiz = (ResponsePacket*) handle;
 
 	ret = UniAttribute_init((UniAttribute*)thiz);
 	if (ret) return ret;
@@ -1025,7 +1013,7 @@ Int32 ResponsePacket_init(ResponsePacket *handle)
 	return 0;
 }
 
-ResponsePacket * ResponsePacket_new()
+ResponsePacket *ResponsePacket_new()
 {
 	Int32 ret;
 	ResponsePacket *thiz = (ResponsePacket*)TarsMalloc(sizeof(ResponsePacket));
@@ -1040,7 +1028,7 @@ ResponsePacket * ResponsePacket_new()
 	return thiz;
 }
 
-Int32 ResponsePacket_encode(const ResponsePacket * rsp_pack, TarsOutputStream *os_tmp)
+Int32 ResponsePacket_encode(const ResponsePacket *rsp_pack, TarsOutputStream *os_tmp)
 {
     Int32 ret;
 
