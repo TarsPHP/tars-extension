@@ -4,14 +4,13 @@
 
 #include "./include/tars_c.h"
 
-//����ֵ����
-const Int32 TARS_SUCCESS        =  0;	  //�ɹ�
-const Int32 TARS_ATTR_NOT_FOUND = -1;	  //���Ҳ����������
-const Int32 TARS_ENCODE_ERROR   = -2;	  //�������
-const Int32 TARS_DECODE_ERROR   = -3;	  //�������
-const Int32 TARS_RUNTIME_ERROR  = -4;	  //��������ʱ����
-const Int32 TARS_MALLOC_ERROR   = -5;	  //�ڴ�����ʧ�ܴ���
-const Int32 TARS_DECODE_EOPNEXT = -6;	  //��ѡ�ֶβ�����
+const Int32 TARS_SUCCESS        =  0;
+const Int32 TARS_ATTR_NOT_FOUND = -1;
+const Int32 TARS_ENCODE_ERROR   = -2;
+const Int32 TARS_DECODE_ERROR   = -3;
+const Int32 TARS_RUNTIME_ERROR  = -4;
+const Int32 TARS_MALLOC_ERROR   = -5;
+const Int32 TARS_DECODE_EOPNEXT = -6;
 
 Int64 tars__bswap_constant_64(Int64 x)
 {
@@ -21,7 +20,7 @@ Int64 tars__bswap_constant_64(Int64 x)
 	__t__.low  = tars__bswap_constant_32(x.low);
 	return __t__;
 #else
-	return((((x) & 0xff00000000000000ull) >> 56)                      \
+	return ((((x) & 0xff00000000000000ull) >> 56)                      \
 		   | (((x) & 0x00ff000000000000ull) >> 40)                     \
 		   | (((x) & 0x0000ff0000000000ull) >> 24)                     \
 		   | (((x) & 0x000000ff00000000ull) >> 8)                      \
@@ -48,6 +47,7 @@ Double tars_ntohd(Double x)
 	Int64 __t__ = tars__bswap_constant_64((*((Int64 *)&x)));
 	return *((Double *) &__t__);
 }
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 void JString_del(JString **st)
@@ -58,18 +58,18 @@ void JString_del(JString **st)
 	*st = NULL;
 }
 
-void JString_copy(char * dest, const char * src, uint32_t len)
+void JString_copy(char *dest, const char *src, uint32_t len)
 {
-	char * pe = dest + len;
+	char *pe = dest + len;
 	if (dest == NULL || src == NULL || (Int32)len < 0)
 		return;
 	for (; dest != pe; ++dest, ++src)
 		*dest = *src;
 }
 
-Int32 JString_copyChar(JString * s, char * data, uint32_t len)
+Int32 JString_copyChar(JString *s, char *data, uint32_t len)
 {
-	char * p = TarsMalloc(sizeof(char) * len + 1);
+	char *p = TarsMalloc(sizeof(char) * len + 1);
 	if (!p)
 		return TARS_MALLOC_ERROR;
 
@@ -83,21 +83,15 @@ Int32 JString_copyChar(JString * s, char * data, uint32_t len)
 	return 0;
 }
 
-void JString_clear(JString *s)          { if (s != NULL) { s->_len = 0; s->_data[0] = 0;}}
+void JString_clear(JString *s) { if (s != NULL) { s->_len = 0; s->_data[0] = 0; } }
 
-/**
- * ����n���ȵ�JString�ռ�
- * @param  s [description]
- * @param  n [description]
- * @return   [description]
- */
 Int32 JString_reserve(JString *s, uint32_t n)
 {
 	if (s == NULL || (Int32)n < 0)
 		return TARS_MALLOC_ERROR;
 	if (s->_buf_len < n + 1)
 	{
-		char * p = TarsMalloc(n + 1);
+		char *p = TarsMalloc(n + 1);
 
 		if (!p)
 			return TARS_MALLOC_ERROR;
@@ -110,14 +104,7 @@ Int32 JString_reserve(JString *s, uint32_t n)
 	return 0;
 }
 
-/**
- * Jstring���ڴ濽��
- * @param  s    [description]
- * @param  data [description]
- * @param  len  [description]
- * @return      [description]
- */
-Int32 JString_assign(JString *s, const char * data, uint32_t len)
+Int32 JString_assign(JString *s, const char *data, uint32_t len)
 {
 	Int32 ret=0;
 	if (s == NULL || data == NULL || (Int32)len < 0)
@@ -136,7 +123,7 @@ Int32 JString_assign(JString *s, const char * data, uint32_t len)
 	return 0;
 }
 
-Int32 JString_append(JString * s, const char * data, uint32_t len)
+Int32 JString_append(JString *s, const char *data, uint32_t len)
 {
 	if (s == NULL || data == NULL || (Int32)len < 0)
 		return TARS_MALLOC_ERROR;
@@ -176,7 +163,8 @@ Int32 JString_insert(JString *s, uint32_t pos, char v)
 uint32_t JString_size(JString *s)       { if (s) return s->_len; return 0;}
 int JString_empty(JString *s)           { if (s) return s->_len == 0; return 0;}
 uint32_t JString_capacity(JString *s)   { if (s) return s->_buf_len; return 0;}
-char * JString_data(JString *s)         { if (s) return s->_data; return NULL;}
+char *JString_data(JString *s)          { if (s) return s->_data; return NULL;}
+
 Int32 JString_resize(JString *s, uint32_t n)
 {
 	if (s == NULL || (Int32)n < 0)
@@ -206,7 +194,7 @@ Int32 JString_init(JString *s)
 	return TARS_SUCCESS;
 }
 
-JString * JString_new()
+JString *JString_new()
 {
 	Int32 ret;
 	JString *s = TarsMalloc(sizeof(JString));
@@ -223,7 +211,7 @@ JString * JString_new()
 	return s;
 }
 
-void JArray_del(JArray ** arr)
+void JArray_del(JArray **arr)
 {
 	if (arr == NULL || *arr == NULL) return;
 	if ((*arr)->elem_type_name != NULL)	TarsFree((*arr)->elem_type_name);
@@ -241,7 +229,7 @@ Int32 JArray_reserveList(JArray *arr, uint32_t num)
 
 	if (arr->list_len < num)
 	{
-		int * p = TarsMalloc(num);
+		int *p = TarsMalloc(num);
 		if (!p)
 			return TARS_MALLOC_ERROR;
 
@@ -261,7 +249,7 @@ Int32 JArray_reserveBuff(JArray *arr, uint32_t len)
 
 	if (arr->buff_len < len)
 	{
-		char * p = TarsMalloc(len);
+		char *p = TarsMalloc(len);
 		if (!p)
 			return TARS_MALLOC_ERROR;
 
@@ -273,7 +261,7 @@ Int32 JArray_reserveBuff(JArray *arr, uint32_t len)
 	return 0;
 }
 
-Int32 JArray_pushBack(JArray *arr, const char * data, uint32_t len)
+Int32 JArray_pushBack(JArray *arr, const char *data, uint32_t len)
 {
 	Int32 ret;
 	if (arr == NULL || data == NULL || (Int32)len < 0)
@@ -283,13 +271,13 @@ Int32 JArray_pushBack(JArray *arr, const char * data, uint32_t len)
 
 	if (arr->list_len <= arr->elem_num * sizeof(int))
 	{
-		ret = JArray_reserveList(arr, 2* (arr->list_len + sizeof(int)) );
+		ret = JArray_reserveList(arr, 2 * (arr->list_len + sizeof(int)) );
 		if (ret)
 			return ret;
 	}
 	if (arr->buff_len < arr->buff_used + len)
 	{
-		ret = JArray_reserveBuff(arr, 2*(arr->buff_len + len));
+		ret = JArray_reserveBuff(arr, 2 * (arr->buff_len + len));
 		if (ret)
 			return ret;
 	}
@@ -303,12 +291,12 @@ Int32 JArray_pushBack(JArray *arr, const char * data, uint32_t len)
 	return 0;
 }
 
-Int32 JArray_pushBackString(JArray *arr, const char * data)
+Int32 JArray_pushBackString(JArray *arr, const char *data)
 {
 	return JArray_pushBack(arr, data, strlen(data));
 }
 
-Int32 JArray_get(JArray *arr, unsigned index, char *data, uint32_t * len)
+Int32 JArray_get(JArray *arr, unsigned index, char *data, uint32_t *len)
 {
 	unsigned data_len = 0;
 	if (arr == NULL || (Int32)index < 0 || data == NULL || len == NULL)
@@ -384,22 +372,13 @@ void JArray_clear(JArray *arr)
 
 void JArray_init(JArray *arr)
 {
-/*
-	arr->elem_type_name = NULL;
-	arr->elem_num       = 0;
-	arr->list_len       = 0;
-	arr->list           = NULL;
-	arr->buff_used      = 0;
-	arr->buff_len       = 0;
-	arr->buff           = NULL;
-  */
 	memset(arr, 0, sizeof(JArray));
 }
 
-JArray * JArray_new(const char * type)
+JArray *JArray_new(const char *type)
 {
 	unsigned len = 0;
-	JArray * arr = TarsMalloc(sizeof(JArray));
+	JArray *arr = TarsMalloc(sizeof(JArray));
 	if (!arr)
 		return NULL;
 
@@ -418,7 +397,7 @@ JArray * JArray_new(const char * type)
 	return arr;
 }
 
-void JMapWrapper_del(JMapWrapper ** m)
+void JMapWrapper_del(JMapWrapper **m)
 {
 	if (m == NULL || *m == NULL) return;
 	JArray_del(&((*m)->first));
@@ -427,16 +406,8 @@ void JMapWrapper_del(JMapWrapper ** m)
 	TarsFree(*m);
 	*m = NULL;
 }
-/**
- * �ֱ��key��val���ַ���ѹ��JString��
- * @param  m          [description]
- * @param  first_data [description]
- * @param  first_len  [description]
- * @param  value_data [description]
- * @param  value_len  [description]
- * @return            [description]
- */
-Int32 JMapWrapper_put(JMapWrapper *m, const char * first_data, unsigned first_len, const char *value_data, unsigned value_len)
+
+Int32 JMapWrapper_put(JMapWrapper *m, const char *first_data, unsigned first_len, const char *value_data, unsigned value_len)
 {
 	Int32 ret = 0;
 	ret = JArray_pushBack(m->first, first_data, first_len);
@@ -446,7 +417,7 @@ Int32 JMapWrapper_put(JMapWrapper *m, const char * first_data, unsigned first_le
 	return JArray_pushBack(m->second, value_data, value_len);
 }
 
-int JMapWrapper_find(JMapWrapper *m, const char * first_data, unsigned first_len, char **value_data, unsigned * value_len)
+int JMapWrapper_find(JMapWrapper *m, const char *first_data, unsigned first_len, char **value_data, unsigned *value_len)
 {
 	uint32_t i;
 
@@ -465,12 +436,12 @@ int JMapWrapper_find(JMapWrapper *m, const char * first_data, unsigned first_len
 }
 
 
-int JMapWrapper_size(JMapWrapper * m)
+int JMapWrapper_size(JMapWrapper *m)
 {
 	return JArray_size(m->first);
 }
 
-int JMapWrapper_getByIndex(JMapWrapper *m, unsigned index, char *first, uint32_t * first_len, char* second, uint32_t * second_len)
+int JMapWrapper_getByIndex(JMapWrapper *m, unsigned index, char *first, uint32_t *first_len, char *second, uint32_t *second_len)
 {
 	JArray_get(m->first, index, first, first_len);
 	JArray_get(m->second, index, second, second_len);
@@ -492,9 +463,9 @@ void JMapWrapper_init(JMapWrapper *m)
 {
 }
 
-JMapWrapper * JMapWrapper_new(const char * first_type, const char * second_type)
+JMapWrapper *JMapWrapper_new(const char *first_type, const char *second_type)
 {
-	JMapWrapper * m = TarsMalloc(sizeof(JMapWrapper));
+	JMapWrapper *m = TarsMalloc(sizeof(JMapWrapper));
 	if (!m)
 		return NULL;
 
@@ -542,7 +513,7 @@ void helper_setType(helper *h, unsigned int t)
 	h->type_tag |= (t & 0x0F);
 }
 
-void DataHead_del(DataHead ** head)
+void DataHead_del(DataHead **head)
 {
 	if (head == NULL || *head == NULL) return;
 	TarsFree(*head);
@@ -550,13 +521,10 @@ void DataHead_del(DataHead ** head)
 }
 
 
-uint8_t DataHead_getTag(DataHead * head)              { return head->_tag;}
-//void DataHead_setTag(DataHead * head, uint8_t t)      { head->_tag = t; }
-uint8_t DataHead_getType(DataHead * head)             { return head->_type;}
-//void DataHead_setType(DataHead * head, uint8_t t)     { head->_type = t; }
+uint8_t DataHead_getTag(DataHead *head)  { return head->_tag; }
+uint8_t DataHead_getType(DataHead *head) { return head->_type; }
 
-/// ��ȡͷ��Ϣ������ǰ������ƫ����
-Int32 DataHead_peekFrom(DataHead * head, TarsInputStream* is, uint32_t *n)
+Int32 DataHead_peekFrom(DataHead *head, TarsInputStream *is, uint32_t *n)
 {
 	Int32 ret = 0;
 	helper h;
@@ -579,8 +547,7 @@ Int32 DataHead_peekFrom(DataHead * head, TarsInputStream* is, uint32_t *n)
 	return TARS_SUCCESS;
 }
 
-/// ��ȡ����ͷ��Ϣ
-Int32 DataHead_readFrom(DataHead * head, TarsInputStream* is)
+Int32 DataHead_readFrom(DataHead *head, TarsInputStream *is)
 {
 	Int32 ret = 0;
 	uint32_t n;
@@ -593,8 +560,7 @@ Int32 DataHead_readFrom(DataHead * head, TarsInputStream* is)
 }
 
 
-/// д������ͷ��Ϣ
-Int32 DataHead_writeTo(DataHead * head, TarsOutputStream* os)
+Int32 DataHead_writeTo(DataHead *head, TarsOutputStream *os)
 {
 	Int32 ret;
 	helper h;
@@ -613,23 +579,23 @@ Int32 DataHead_writeTo(DataHead * head, TarsOutputStream* os)
 	}
 	return TARS_SUCCESS;
 }
-Int32 DataHead_setAndWriteTo(DataHead * head, unsigned int type, unsigned int tag,TarsOutputStream* os)
+
+Int32 DataHead_setAndWriteTo(DataHead *head, unsigned int type, unsigned int tag, TarsOutputStream *os)
 {
 	head->_tag = tag;
 	head->_type = type;
 	return DataHead_writeTo(head, os);
 }
 
-
-void DataHead_init(DataHead * head)
+void DataHead_init(DataHead *head)
 {
 	head->_type = 0;
 	head->_tag  = 0;
 }
 
-DataHead * DataHead_new()
+DataHead *DataHead_new()
 {
-	DataHead * head = TarsMalloc(sizeof(DataHead));
+	DataHead *head = TarsMalloc(sizeof(DataHead));
 	if (!head)
 	{
 		return NULL;
@@ -637,8 +603,10 @@ DataHead * DataHead_new()
 	DataHead_init(head);
 	return head;
 }
+
 ////////////////////////////////////////////////////////////////////////////
-static void TarsStream_del(TarsStream ** js)
+
+static void TarsStream_del(TarsStream **js)
 {
 	if (js == NULL || *js == NULL) return;
 	JString_del(& (*js)->_buf);
@@ -648,7 +616,7 @@ static void TarsStream_del(TarsStream ** js)
 	*js = NULL;
 }
 
-static Int32 TarsStream_init(TarsStream* js)
+static Int32 TarsStream_init(TarsStream *js)
 {
 	js->_buf = JString_new();
 	if (!js->_buf)
@@ -667,10 +635,10 @@ static Int32 TarsStream_init(TarsStream* js)
 	return TARS_SUCCESS;
 }
 
-static TarsStream * TarsStream_new()
+static TarsStream *TarsStream_new()
 {
 	Int32 ret;
-	TarsStream * js = TarsMalloc(sizeof(TarsStream));
+	TarsStream *js = TarsMalloc(sizeof(TarsStream));
 	if (!js)
 	{
 		return NULL;
@@ -688,17 +656,17 @@ static TarsStream * TarsStream_new()
 
 ////////////////////////////////////////////////////////////////////////////
 
-void TarsInputStream_del(TarsInputStream ** is)
+void TarsInputStream_del(TarsInputStream **is)
 {
 	TarsStream_del(is);
 }
 
-void TarsInputStream_reset(TarsInputStream * is)
+void TarsInputStream_reset(TarsInputStream *is)
 {
 	is->_cur = 0;
 }
 
-Int32 TarsInputStream_readBuf(TarsInputStream * is, void * buf, uint32_t len)
+Int32 TarsInputStream_readBuf(TarsInputStream *is, void *buf, uint32_t len)
 {
 	Int32 ret;
 
@@ -709,7 +677,7 @@ Int32 TarsInputStream_readBuf(TarsInputStream * is, void * buf, uint32_t len)
 	return TARS_SUCCESS;
 }
 
-Int32 TarsInputStream_peekBuf(TarsInputStream * is, void * buf, uint32_t len, uint32_t offset)
+Int32 TarsInputStream_peekBuf(TarsInputStream *is, void *buf, uint32_t len, uint32_t offset)
 {
 	if (is->_cur + offset + len > JString_size(is->_buf))
 	{
@@ -720,17 +688,13 @@ Int32 TarsInputStream_peekBuf(TarsInputStream * is, void * buf, uint32_t len, ui
 	return TARS_SUCCESS;
 }
 
-
-
-/// ����len���ֽ�
-Int32 TarsInputStream_skip(TarsInputStream * is, uint32_t len)
+Int32 TarsInputStream_skip(TarsInputStream *is, uint32_t len)
 {
 	is->_cur += len;
 	return TARS_SUCCESS;
 }
 
-/// ���û���
-Int32 TarsInputStream_setBuffer(TarsInputStream * is, const char * buf, uint32_t len)
+Int32 TarsInputStream_setBuffer(TarsInputStream *is, const char *buf, uint32_t len)
 {
 	Int32 ret = JString_assign(is->_buf, buf, len);
 	if (ret)
@@ -740,9 +704,7 @@ Int32 TarsInputStream_setBuffer(TarsInputStream * is, const char * buf, uint32_t
 	return TARS_SUCCESS;
 }
 
-
-/// ����ָ����ǩ��Ԫ��ǰ
-Int32 TarsInputStream_skipToTag(TarsInputStream * is, uint8_t tag)
+Int32 TarsInputStream_skipToTag(TarsInputStream *is, uint8_t tag)
 {
 	Int32 ret;
 	while (1)
@@ -770,11 +732,11 @@ Int32 TarsInputStream_skipToTag(TarsInputStream * is, uint8_t tag)
 	return TARS_DECODE_ERROR;
 }
 
-/// ������ǰ�ṹ�Ľ���
-Int32 TarsInputStream_skipToStructEnd(TarsInputStream * is)
+Int32 TarsInputStream_skipToStructEnd(TarsInputStream *is)
 {
 	Int32 ret;
-	Int32 level = 1; //�жϽṹǶ�׵����
+	Int32 level = 1;
+
 	do
 	{
 		ret = DataHead_readFrom(is->_h, is);
@@ -794,8 +756,7 @@ Int32 TarsInputStream_skipToStructEnd(TarsInputStream * is)
 	return TARS_SUCCESS;
 }
 
-/// ����һ���ֶ�
-Int32 TarsInputStream_skipField(TarsInputStream * is)
+Int32 TarsInputStream_skipField(TarsInputStream *is)
 {
 	Int32 ret;
 
@@ -808,8 +769,7 @@ Int32 TarsInputStream_skipField(TarsInputStream * is)
 	return TARS_SUCCESS;
 }
 
-/// ����һ���ֶΣ�������ͷ��Ϣ
-Int32 TarsInputStream_skipFieldByType(TarsInputStream * is, uint8_t type)
+Int32 TarsInputStream_skipFieldByType(TarsInputStream *is, uint8_t type)
 {
 	Int32 ret;
 	uint32_t len = 0;
@@ -916,7 +876,7 @@ Int32 TarsInputStream_skipFieldByType(TarsInputStream * is, uint8_t type)
 	return TARS_SUCCESS;
 }
 
-Int32 TarsInputStream_checkValid(TarsInputStream * is,uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_checkValid(TarsInputStream *is,uint8_t tag, Bool isRequire)
 {
 	if (!TarsInputStream_skipToTag(is, tag))
 	{
@@ -931,28 +891,28 @@ Int32 TarsInputStream_checkValid(TarsInputStream * is,uint8_t tag, Bool isRequir
 	return TARS_DECODE_EOPNEXT;
 }
 
-Int32 TarsInputStream_readByChar(TarsInputStream * is, Char * n)
+Int32 TarsInputStream_readByChar(TarsInputStream *is, Char *n)
 {
 	Int32 ret;
 	ret = TarsInputStream_readBuf(is, n, sizeof(*n));
 	return ret;
 }
-Int32 TarsInputStream_readByShort(TarsInputStream * is, Short * n)
-{
-	Int32 ret;
-	ret = TarsInputStream_readBuf(is, n, sizeof(*n));
-	return ret;
-}
-
-
-Int32 TarsInputStream_readByInt32(TarsInputStream * is, Int32 * n)
+Int32 TarsInputStream_readByShort(TarsInputStream *is, Short *n)
 {
 	Int32 ret;
 	ret = TarsInputStream_readBuf(is, n, sizeof(*n));
 	return ret;
 }
 
-Int32 TarsInputStream_readBool(TarsInputStream * is, Bool* b, uint8_t tag, Bool isRequire)
+
+Int32 TarsInputStream_readByInt32(TarsInputStream *is, Int32 *n)
+{
+	Int32 ret;
+	ret = TarsInputStream_readBuf(is, n, sizeof(*n));
+	return ret;
+}
+
+Int32 TarsInputStream_readBool(TarsInputStream *is, Bool *b, uint8_t tag, Bool isRequire)
 {
 	Int32 ret;
 	Char c = *b;
@@ -962,7 +922,7 @@ Int32 TarsInputStream_readBool(TarsInputStream * is, Bool* b, uint8_t tag, Bool 
 	return ret;
 }
 
-Int32 TarsInputStream_readChar(TarsInputStream * is, Char* c, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readChar(TarsInputStream *is, Char *c, uint8_t tag, Bool isRequire)
 {
 	Int32 ret = TarsInputStream_checkValid(is,tag,isRequire);
 	if (TARS_DECODE_EOPNEXT == ret) return TARS_DECODE_EOPNEXT;
@@ -987,7 +947,7 @@ Int32 TarsInputStream_readChar(TarsInputStream * is, Char* c, uint8_t tag, Bool 
 	return TARS_SUCCESS;
 }
 
-Int32 TarsInputStream_readUInt8	(TarsInputStream * is, UInt8 * n, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readUInt8	(TarsInputStream *is, UInt8 *n, uint8_t tag, Bool isRequire)
 {
 	Short ns = 0;
 	Int32 ret = TarsInputStream_readShort(is, &ns, tag, isRequire);
@@ -997,7 +957,7 @@ Int32 TarsInputStream_readUInt8	(TarsInputStream * is, UInt8 * n, uint8_t tag, B
 	return TARS_SUCCESS;
 }
 
-Int32 TarsInputStream_readShort(TarsInputStream * is, Short* n, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readShort(TarsInputStream *is, Short *n, uint8_t tag, Bool isRequire)
 {
 	Char c;
 	Int32 ret = TarsInputStream_checkValid(is,tag,isRequire);
@@ -1029,7 +989,7 @@ Int32 TarsInputStream_readShort(TarsInputStream * is, Short* n, uint8_t tag, Boo
 	return TARS_SUCCESS;
 }
 
-Int32 TarsInputStream_readUInt16	(TarsInputStream *is, UInt16 *n, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readUInt16(TarsInputStream *is, UInt16 *n, uint8_t tag, Bool isRequire)
 {
 	Int32 ns = 0;
 	Int32 ret = TarsInputStream_readInt32(is, &ns, tag, isRequire);
@@ -1039,7 +999,7 @@ Int32 TarsInputStream_readUInt16	(TarsInputStream *is, UInt16 *n, uint8_t tag, B
 	return TARS_SUCCESS;
 }
 
-Int32 TarsInputStream_readInt32(TarsInputStream * is, Int32* n, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readInt32(TarsInputStream *is, Int32 *n, uint8_t tag, Bool isRequire)
 {
 	Char c;
 	Short sh;
@@ -1078,7 +1038,7 @@ Int32 TarsInputStream_readInt32(TarsInputStream * is, Int32* n, uint8_t tag, Boo
 
 }
 
-Int32 TarsInputStream_readUInt32	(TarsInputStream *is, UInt32 * n, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readUInt32(TarsInputStream *is, UInt32 *n, uint8_t tag, Bool isRequire)
 {
 	Int64 ns = 0;
 	Int32 ret = TarsInputStream_readInt64(is, &ns, tag, isRequire);
@@ -1088,7 +1048,7 @@ Int32 TarsInputStream_readUInt32	(TarsInputStream *is, UInt32 * n, uint8_t tag, 
 	return TARS_SUCCESS;
 }
 
-Int32 TarsInputStream_readInt64(TarsInputStream * is, Int64* n, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readInt64(TarsInputStream *is, Int64 *n, uint8_t tag, Bool isRequire)
 {
 
 	Char c;
@@ -1166,17 +1126,8 @@ Int32 TarsInputStream_readInt64(TarsInputStream * is, Int64* n, uint8_t tag, Boo
 	return TARS_SUCCESS;
 
 }
-/*
-Int32 TarsInputStream_readInt64_HL(TarsInputStream * is, Int32* high, Int32* low, uint8_t tag, Bool isRequire)
-{
-	Int64 n = 0;
-	TarsInputStream_readInt64(is, &n, tag,isRequire );
-	*low     = (Int32)n;
-	*high    = (Int32)(n>>32);
-}
-*/
 
-Int32 TarsInputStream_readFloat(TarsInputStream * is, Float* n, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readFloat(TarsInputStream *is, Float *n, uint8_t tag, Bool isRequire)
 {
 	Int32 ret = TarsInputStream_checkValid(is,tag,isRequire);
 	if (TARS_DECODE_EOPNEXT == ret) return TARS_DECODE_EOPNEXT;
@@ -1202,7 +1153,7 @@ Int32 TarsInputStream_readFloat(TarsInputStream * is, Float* n, uint8_t tag, Boo
 
 }
 
-Int32 TarsInputStream_readDouble(TarsInputStream * is, Double* n, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readDouble(TarsInputStream *is, Double *n, uint8_t tag, Bool isRequire)
 {
 	Int32 ret = TarsInputStream_checkValid(is,tag,isRequire);
 	if (TARS_DECODE_EOPNEXT == ret) return TARS_DECODE_EOPNEXT;
@@ -1236,91 +1187,7 @@ Int32 TarsInputStream_readDouble(TarsInputStream * is, Double* n, uint8_t tag, B
 	return TARS_SUCCESS;
 }
 
-Int32 Tars_readStringLen(char* src)
-{
-    helper h;
-	memcpy(&h, src, sizeof(h));
-
-	uint8_t type = helper_getType(&h);
-    int offset = sizeof(h);
-
-    switch (type)
-    {
-    	case eString1:
-    	{
-    	    uint8_t n;
-            char ss[256];
-            memcpy(&n, src + offset, sizeof(n));
-
-            return n;
-    	}
-        case eString4:
-        {
-            uint32_t len;
-            memcpy(&len, src + offset, sizeof(len));
-
-            len = tars_ntohl(len);
-
-            return len;
-        }
-        default:
-        {
-            break;
-        }
-    }
-
-	return 0;
-}
-
-Int32 Tars_readString(char* src, char ** output)
-{
-    helper h;
-    memcpy(&h, src, sizeof(h));
-
-    uint8_t type = helper_getType(&h);
-    int offset = sizeof(h);
-
-    switch (type)
-    {
-    	case eString1:
-    	{
-    	    uint8_t n;
-            uint32_t len;
-            memcpy(&n, src + offset, sizeof(n));
-            offset += sizeof(n);
-
-            len = n;
-            memcpy(output, src + offset, len);
-
-            break;
-    	}
-        case eString4:
-        {
-            uint32_t len;
-            char *ss;
-
-            memcpy(&len, src + offset, sizeof(len));
-            offset += sizeof(len);
-
-            len = tars_ntohl(len);
-            if (len > TARS_MAX_STRING_LENGTH)
-            {
-                return TARS_DECODE_ERROR;
-            }
-
-            memcpy(output, src + offset, len);
-            break;
-        }
-        default:
-        {
-            break;
-        }
-    }
-
-	return TARS_SUCCESS;
-}
-
-Int32 TarsInputStream_readString(TarsInputStream * is, JString* s, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readString(TarsInputStream *is, JString *s, uint8_t tag, Bool isRequire)
 {
 	Int32 ret = TarsInputStream_checkValid(is,tag,isRequire);
 	if (TARS_DECODE_EOPNEXT == ret) return TARS_DECODE_EOPNEXT;
@@ -1381,7 +1248,7 @@ Int32 TarsInputStream_readString(TarsInputStream * is, JString* s, uint8_t tag, 
 	return TARS_SUCCESS;
 }
 
-Int32 TarsInputStream_readMap(TarsInputStream * is, JMapWrapper* m, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readMap(TarsInputStream *is, JMapWrapper *m, uint8_t tag, Bool isRequire)
 {
 	Int32 ret = TarsInputStream_checkValid(is,tag,isRequire);
 	if (TARS_DECODE_EOPNEXT == ret) return TARS_DECODE_EOPNEXT;
@@ -1426,7 +1293,7 @@ Int32 TarsInputStream_readMap(TarsInputStream * is, JMapWrapper* m, uint8_t tag,
 	return TARS_SUCCESS;
 }
 
-Int32 TarsInputStream_readVectorChar(TarsInputStream * is, JString *v, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readVectorChar(TarsInputStream *is, JString *v, uint8_t tag, Bool isRequire)
 {
 	Int32 ret = TarsInputStream_checkValid(is,tag,isRequire);
 	if (TARS_DECODE_EOPNEXT == ret) return TARS_DECODE_EOPNEXT;
@@ -1487,7 +1354,7 @@ Int32 TarsInputStream_readVectorChar(TarsInputStream * is, JString *v, uint8_t t
 	return TARS_SUCCESS;
 }
 
-Int32 TarsInputStream_readVector(TarsInputStream * is, JArray* v, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readVector(TarsInputStream *is, JArray *v, uint8_t tag, Bool isRequire)
 {
 	Int32 ret = TarsInputStream_checkValid(is,tag,isRequire);
 	if (TARS_DECODE_EOPNEXT == ret) return TARS_DECODE_EOPNEXT;
@@ -1529,12 +1396,10 @@ Int32 TarsInputStream_readVector(TarsInputStream * is, JArray* v, uint8_t tag, B
 	return TARS_SUCCESS;
 }
 
-
-/// ��ȡ�ṹ
-Int32 TarsInputStream_readStruct(TarsInputStream * is, void * st, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readStruct(TarsInputStream *is, void *st, uint8_t tag, Bool isRequire)
 {
 	Int32 ret=0;
-	const JStructBase* jst = st;
+	const JStructBase *jst = st;
 	JString *s = JString_new();
 	TarsInputStream *i = TarsInputStream_new();
 	do
@@ -1554,7 +1419,7 @@ Int32 TarsInputStream_readStruct(TarsInputStream * is, void * st, uint8_t tag, B
 	return ret;
 }
 
-Int32 TarsInputStream_readStructString(TarsInputStream * is, JString * st, uint8_t tag, Bool isRequire)
+Int32 TarsInputStream_readStructString(TarsInputStream *is, JString *st, uint8_t tag, Bool isRequire)
 {
 	uint32_t pos1,pos2;
 	Int32 ret = TarsInputStream_checkValid(is,tag,isRequire);
@@ -1578,61 +1443,56 @@ Int32 TarsInputStream_readStructString(TarsInputStream * is, JString * st, uint8
 }
 
 
-Int32 TarsInputStream_init(TarsInputStream* is)
+Int32 TarsInputStream_init(TarsInputStream *is)
 {
 	return TarsStream_init(is);
 }
 
-TarsInputStream * TarsInputStream_new()
+TarsInputStream *TarsInputStream_new()
 {
 	return TarsStream_new();
 }
 
 ////////////////////////////////////////////////
-void TarsOutputStream_del(TarsOutputStream ** os)
+
+void TarsOutputStream_del(TarsOutputStream **os)
 {
 	TarsStream_del(os);
 }
 
-
-void TarsOutputStream_reset(TarsOutputStream * os)
+void TarsOutputStream_reset(TarsOutputStream *os)
 {
 	JString_clear(os->_buf);
 }
 
-Int32 TarsOutputStream_writeBuf(TarsOutputStream * os, const void * buf, uint32_t len)
+Int32 TarsOutputStream_writeBuf(TarsOutputStream *os, const void *buf, uint32_t len)
 {
-	char * p = (char *) buf;
+	char *p = (char *) buf;
 	return JString_append(os->_buf, p, len);
 }
 
-char * TarsOutputStream_getBuffer(TarsOutputStream * os)          { return JString_data(os->_buf);}
-uint32_t TarsOutputStream_getLength(TarsOutputStream * os)       { return JString_size(os->_buf);}
+char *TarsOutputStream_getBuffer(TarsOutputStream *os)          { return JString_data(os->_buf);}
+uint32_t TarsOutputStream_getLength(TarsOutputStream *os)       { return JString_size(os->_buf);}
 
 
-Int32 TarsOutputStream_writeBool(TarsOutputStream * os, Bool b, uint8_t tag)
+Int32 TarsOutputStream_writeBool(TarsOutputStream *os, Bool b, uint8_t tag)
 {
 	TarsOutputStream_writeChar(os, (Char) b, tag);
 
 	return TARS_SUCCESS;
 }
 
-Int32 TarsOutputStream_writeChar(TarsOutputStream * os, Char n, uint8_t tag)
+Int32 TarsOutputStream_writeChar(TarsOutputStream *os, Char n, uint8_t tag)
 {
 	Int32 ret;
-	//DataHead_setTag(os->_h, tag);
 	if (n == 0)
 	{
-		//DataHead_setType(os->_h, eZeroTag);
-		//ret = DataHead_writeTo(os->_h, os);
 		ret = DataHead_setAndWriteTo(os->_h, eZeroTag, tag, os);
 
 		if (TARS_SUCCESS != ret)	return ret;
 	}
 	else
 	{
-		//DataHead_setType(os->_h, eChar);
-		//ret = DataHead_writeTo(os->_h, os);
 		ret = DataHead_setAndWriteTo(os->_h, eChar, tag, os);
 		if (TARS_SUCCESS != ret)	return ret;
 
@@ -1642,12 +1502,12 @@ Int32 TarsOutputStream_writeChar(TarsOutputStream * os, Char n, uint8_t tag)
 	return TARS_SUCCESS;
 }
 
-Int32 TarsOutputStream_writeUInt8(TarsOutputStream * os, UInt8 n, uint8_t tag)
+Int32 TarsOutputStream_writeUInt8(TarsOutputStream *os, UInt8 n, uint8_t tag)
 {
 	return TarsOutputStream_writeShort(os, (Short)n, tag);
 }
 
-Int32 TarsOutputStream_writeShort(TarsOutputStream * os, Short n, uint8_t tag)
+Int32 TarsOutputStream_writeShort(TarsOutputStream *os, Short n, uint8_t tag)
 {
 	Int32 ret;
 
@@ -1667,12 +1527,12 @@ Int32 TarsOutputStream_writeShort(TarsOutputStream * os, Short n, uint8_t tag)
 	return TARS_SUCCESS;
 }
 
-Int32 TarsOutputStream_writeUInt16(TarsOutputStream * os, UInt16 n, uint8_t tag)
+Int32 TarsOutputStream_writeUInt16(TarsOutputStream *os, UInt16 n, uint8_t tag)
 {
 	return TarsOutputStream_writeInt32(os, (Int32)n, tag);
 }
 
-Int32 TarsOutputStream_writeInt32(TarsOutputStream * os, Int32 n, uint8_t tag)
+Int32 TarsOutputStream_writeInt32(TarsOutputStream *os, Int32 n, uint8_t tag)
 {
 	Int32 ret;
 
@@ -1692,12 +1552,12 @@ Int32 TarsOutputStream_writeInt32(TarsOutputStream * os, Int32 n, uint8_t tag)
 	return TARS_SUCCESS;
 }
 
-Int32 TarsOutputStream_writeUInt32(TarsOutputStream * os, UInt32 n, uint8_t tag)
+Int32 TarsOutputStream_writeUInt32(TarsOutputStream *os, UInt32 n, uint8_t tag)
 {
 	return TarsOutputStream_writeInt64(os, (Int64)n, tag);
 }
 
-Int32 TarsOutputStream_writeInt64(TarsOutputStream * os, Int64 n, uint8_t tag)
+Int32 TarsOutputStream_writeInt64(TarsOutputStream *os, Int64 n, uint8_t tag)
 {
 	Int32 ret;
 
@@ -1726,7 +1586,7 @@ Int32 TarsOutputStream_writeInt64(TarsOutputStream * os, Int64 n, uint8_t tag)
 
 
 
-Int32 TarsOutputStream_writeFloat(TarsOutputStream * os, Float n, uint8_t tag)
+Int32 TarsOutputStream_writeFloat(TarsOutputStream *os, Float n, uint8_t tag)
 {
 	Int32 ret;
 
@@ -1737,37 +1597,30 @@ Int32 TarsOutputStream_writeFloat(TarsOutputStream * os, Float n, uint8_t tag)
 	return TarsOutputStream_writeBuf(os, &n, sizeof(n));
 }
 
-Int32 TarsOutputStream_writeDouble(TarsOutputStream * os, Double n, uint8_t tag)
+Int32 TarsOutputStream_writeDouble(TarsOutputStream *os, Double n, uint8_t tag)
 {
 	Int32 ret=0;
-	//DataHead_setType(os->_h, eDouble);
-	//DataHead_setTag(os->_h, tag);
 
-	//ret = DataHead_writeTo(os->_h, os);
 	ret = DataHead_setAndWriteTo(os->_h, eDouble, tag, os);
 	if (TARS_SUCCESS != ret)	return ret;
 
 	n = tars_htond(n);
 	return TarsOutputStream_writeBuf(os, &n, sizeof(n));
 }
-Int32 TarsOutputStream_writeString(TarsOutputStream * os, JString* s, uint8_t tag)
+
+Int32 TarsOutputStream_writeString(TarsOutputStream *os, JString *s, uint8_t tag)
 {
 	return TarsOutputStream_writeStringBuffer(os, JString_data(s), JString_size(s), tag);
 }
 
-Int32 TarsOutputStream_writeStringBuffer(TarsOutputStream * os, const char* buff, uint32_t len, uint8_t tag)
+Int32 TarsOutputStream_writeStringBuffer(TarsOutputStream *os, const char *buff, uint32_t len, uint8_t tag)
 {
 	Int32 ret=0;
-
-	//DataHead_setType(os->_h, eString1);
-	//DataHead_setTag(os->_h, tag);
 
 	if (len > 255)
 	{
 		uint32_t n;
 
-		//DataHead_setType(os->_h, eString4);
-		//ret = DataHead_writeTo(os->_h, os);
 		ret = DataHead_setAndWriteTo(os->_h, eString4, tag, os);
 		if (TARS_SUCCESS != ret)	return ret;
 
@@ -1801,23 +1654,12 @@ Int32 TarsOutputStream_writeStringBuffer(TarsOutputStream * os, const char* buff
 	return TARS_SUCCESS;
 }
 
-/**
- * �����һ��map�Ľṹ
- * @param  os  [description]
- * @param  m   [description]
- * @param  tag [description]
- * @return     [description]
- */
-Int32 TarsOutputStream_writeMap(TarsOutputStream * os, JMapWrapper* m, uint8_t tag)
+Int32 TarsOutputStream_writeMap(TarsOutputStream *os, JMapWrapper *m, uint8_t tag)
 {
 	uint32_t i;
 	Int32 n;
 	Int32 ret;
 
-	//DataHead_setType(os->_h, eMap);
-	//DataHead_setTag(os->_h, tag);
-
-	// ret = DataHead_writeTo(os->_h, os);
 	ret = DataHead_setAndWriteTo(os->_h, eMap, tag, os);
 	if (TARS_SUCCESS != ret)	return ret;
 
@@ -1837,15 +1679,10 @@ Int32 TarsOutputStream_writeMap(TarsOutputStream * os, JMapWrapper* m, uint8_t t
 	return TARS_SUCCESS;
 }
 
-
-Int32 TarsOutputStream_writeVector(TarsOutputStream * os, JArray* v, uint8_t tag)
+Int32 TarsOutputStream_writeVector(TarsOutputStream *os, JArray *v, uint8_t tag)
 {
 	Int32 i, n, ret;
 
-	//DataHead_setType(os->_h, eList);
-	// DataHead_setTag(os->_h, tag);
-
-	//ret = DataHead_writeTo(os->_h, os);
 	ret = DataHead_setAndWriteTo(os->_h, eList, tag, os);
 	if (TARS_SUCCESS != ret)	return ret;
 
@@ -1862,30 +1699,22 @@ Int32 TarsOutputStream_writeVector(TarsOutputStream * os, JArray* v, uint8_t tag
 	return TARS_SUCCESS;
 }
 
-Int32 TarsOutputStream_writeVectorChar(TarsOutputStream * os, JString *v, uint8_t tag)
+Int32 TarsOutputStream_writeVectorChar(TarsOutputStream *os, JString *v, uint8_t tag)
 {
 	return TarsOutputStream_writeVectorCharBuffer(os, JString_data(v), JString_size(v), tag);
 }
 
-Int32 TarsOutputStream_writeVectorCharBuffer(TarsOutputStream * os, const char* buff, uint32_t len, uint8_t tag)
+Int32 TarsOutputStream_writeVectorCharBuffer(TarsOutputStream *os, const char *buff, uint32_t len, uint8_t tag)
 {
 	Int32 ret;
 	DataHead *hh;
 
-	//DataHead_setType(os->_h, eSimpleList);
-	// DataHead_setTag(os->_h, tag);
-
-	//ret = DataHead_writeTo(os->_h, os);
 	ret = DataHead_setAndWriteTo(os->_h, eSimpleList, tag, os);
 	if (TARS_SUCCESS != ret)	return ret;
 
 	hh = DataHead_new();
 	if (!hh) return TARS_MALLOC_ERROR;
 
-	//DataHead_setType(hh, eChar);
-	//DataHead_setTag(hh, 0);
-
-	//ret = DataHead_writeTo(hh, os);
 	ret = DataHead_setAndWriteTo(hh, eChar, 0, os);
 	DataHead_del(&hh);
 
@@ -1897,17 +1726,10 @@ Int32 TarsOutputStream_writeVectorCharBuffer(TarsOutputStream * os, const char* 
 	return TarsOutputStream_writeBuf(os, buff, len);
 }
 
-/**
- * �������д��һ���ṹ�壬�㵱ȻҲ������buffer��д��һ���ṹ��
- * @param  os  [description]
- * @param  st  [description]
- * @param  tag [description]
- * @return     [description]
- */
-Int32 TarsOutputStream_writeStruct(TarsOutputStream * os,const void * st,  uint8_t tag)
+Int32 TarsOutputStream_writeStruct(TarsOutputStream *os,const void *st,  uint8_t tag)
 {
 	Int32 ret=0;
-	const JStructBase* jst = st;
+	const JStructBase *jst = st;
 	TarsOutputStream *o = TarsOutputStream_new();
 	do
 	{
@@ -1923,43 +1745,31 @@ Int32 TarsOutputStream_writeStruct(TarsOutputStream * os,const void * st,  uint8
 	return ret;
 }
 
-Int32 TarsOutputStream_writeStructString(TarsOutputStream * os, JString * v,  uint8_t tag)
+Int32 TarsOutputStream_writeStructString(TarsOutputStream *os, JString *v,  uint8_t tag)
 {
 	return TarsOutputStream_writeStructBuffer(os, JString_data(v), JString_size(v), tag);
 }
 
-
-Int32 TarsOutputStream_writeStructBuffer(TarsOutputStream * os, const char* buff, uint32_t len, uint8_t tag)
+Int32 TarsOutputStream_writeStructBuffer(TarsOutputStream *os, const char *buff, uint32_t len, uint8_t tag)
 {
 	Int32 ret;
-	//DataHead_setType(os->_h, eStructBegin);
-	//DataHead_setTag(os->_h, tag);
 
-	//ret = DataHead_writeTo(os->_h, os);
 	ret = DataHead_setAndWriteTo(os->_h, eStructBegin, tag, os);
 	if (TARS_SUCCESS != ret)	return ret;
 
 	ret = TarsOutputStream_writeBuf(os, buff, len);
 	if (TARS_SUCCESS != ret)	return ret;
 
-	//DataHead_setType(os->_h, eStructEnd);
-	//DataHead_setTag(os->_h, 0);
-
-	//ret = DataHead_writeTo(os->_h, os);
 	ret = DataHead_setAndWriteTo(os->_h, eStructEnd, 0, os);
 	return ret;
 }
 
-
-Int32 TarsOutputStream_init(TarsOutputStream * os)
+Int32 TarsOutputStream_init(TarsOutputStream *os)
 {
 	return TarsStream_init(os);
 }
 
-
-TarsOutputStream * TarsOutputStream_new()
+TarsOutputStream *TarsOutputStream_new()
 {
 	return TarsStream_new();
 }
-
-
