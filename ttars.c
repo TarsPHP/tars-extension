@@ -234,7 +234,6 @@ int uint32_packer(zval * z, TarsOutputStream * stream, uint8_t tag, void * out) 
 /* {{{ int64_packer(zval * z, TarsOutputStream * stream, uint8_t tag, void * out)
  */
 int int64_packer(zval * z, TarsOutputStream * stream, uint8_t tag, void * out) {
-
     _TARS_ZVAL_TO_BIG_NUMERIC(z, Int64, stream, tag, out);
     return TARS_SUCCESS;
 }
@@ -1132,7 +1131,8 @@ int struct_unpacker_wrapper(TarsInputStream * is, zval * this_ptr,void ** zv) {
  */
 int map_converter(zval * this_ptr, zval * zv) {
 
-    zval *type, *key_zv = NULL, *value_zv = NULL;
+    //zval *type, *key_zv = NULL, *value_zv = NULL;
+    zval *type;
     HashTable * ht;
     int ftype, stype, ret = 0, format = 0;
     JMapWrapper * container;
@@ -1172,6 +1172,7 @@ int map_converter(zval * this_ptr, zval * zv) {
     container = obj->ctx;
 
 #if PHP_MAJOR_VERSION < 7
+    zval *key_zv = NULL, *value_zv = NULL;
     for(
             zend_hash_internal_pointer_reset(ht);
             zend_hash_has_more_elements(ht) == SUCCESS;
@@ -1252,29 +1253,26 @@ int map_converter(zval * this_ptr, zval * zv) {
     ulong num_key;
 
     zval * key, *value, *item;
+    zval key_zv, value_zv;
 
     ZEND_HASH_FOREACH_KEY_VAL(ht, num_key, zskey, item) {
         if (!item) {
             continue;
         }
 
+
         if (!format) {
-
-            // 申请一个zval
-            ALLOC_INIT_ZVAL(key_zv);
-
             // 参数是以关联数组的方式传即 数组的键是map的第一个元素, 数组的值是第二个元素
             if (zskey) {
-                ZVAL_STRINGL(key_zv, ZSTR_VAL(zskey), strlen(ZSTR_VAL(zskey)));
+                ZVAL_STRINGL(&key_zv, ZSTR_VAL(zskey), strlen(ZSTR_VAL(zskey)));
             } else {
-                ZVAL_LONG(key_zv, num_key);
+                ZVAL_LONG(&key_zv, num_key);
             }
 
-            key = key_zv;
+            key = &key_zv;
 
-            ALLOC_INIT_ZVAL(value_zv);
-            ZVAL_COPY(value_zv, item);
-            value = value_zv;
+            ZVAL_COPY(&value_zv, item);
+            value = &value_zv;
         } else {
             // 参数是以二维数组的方式传即 数组中的键key对应的值是map的第一个元素, 键value对应的值是map的第二个元素
             // 取一条记录
@@ -1310,21 +1308,11 @@ int map_converter(zval * this_ptr, zval * zv) {
         ret = JMapWrapper_put(container, TarsOutputStream_getBuffer(fStream), TarsOutputStream_getLength(fStream),
                               TarsOutputStream_getBuffer(sStream), TarsOutputStream_getLength(sStream));
         if (ret != TARS_SUCCESS) goto do_clean;
-        if (key_zv) {
-            my_zval_ptr_dtor(&key_zv);
-            key_zv = NULL;
-        }
-        if (value_zv) {
-            my_zval_ptr_dtor(&value_zv);
-            value_zv = NULL;
-        }
+
     } ZEND_HASH_FOREACH_END();
 #endif
 
 do_clean :
-    if (key_zv) my_zval_ptr_dtor(&key_zv);
-    if (value_zv) my_zval_ptr_dtor(&value_zv);
-
     TarsOutputStream_del(&fStream);
     TarsOutputStream_del(&sStream);
     return ret;

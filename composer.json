@@ -1,7 +1,7 @@
 {
     "name": "phptars/tars-extension",
     "description": "tars的扩展",
-    "version":"2.2.5",
+    "version":"2.2.6",
     "authors": [
         {
             "name": "Chen Liang",

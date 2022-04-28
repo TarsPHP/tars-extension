@@ -36,7 +36,7 @@ extern zend_module_entry phptars_module_entry;
 
 #include "php7_wrapper.h"
 
-#define PHP_TARS_VERSION "2.2.5"
+#define PHP_TARS_VERSION "2.2.6"
 
 extern zend_class_entry * tup_ce;
 extern zend_class_entry * tup_exception_ce;
