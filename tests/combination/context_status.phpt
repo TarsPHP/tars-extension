@@ -49,4 +49,4 @@ if($statuses_decode === $statuses){
 
 ?>
 --EXPECT--
-success
+successsuccess
