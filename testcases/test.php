@@ -548,7 +548,7 @@ class TarsTest extends TestCase
 
         $out = \TUPAPI::getFloat('float', $respBuf);
 
-        $this->assertEquals((float) $float, (float) $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta((float) $float, (float) $out, 0.0000001, 'not equal');
     }
 
     public function testDefaultFloat()
@@ -570,7 +570,7 @@ class TarsTest extends TestCase
 
         $out = \TUPAPI::getFloat('float111', $respBuf);
 
-        $this->assertEquals((float) $float, (float) $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta((float) $float, (float) $out, 0.0000001, 'not equal');
     }
 
     public function testString()
@@ -813,7 +813,7 @@ class TarsTest extends TestCase
 
         $okData = [123 => 1.1];
 
-        $this->assertEquals($okData, $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta($okData, $out, 0.0000001, 'not equal');
     }
 
     public function testSimpleMapOtherType2()
@@ -838,7 +838,7 @@ class TarsTest extends TestCase
 
         $okData = [123 => 1.1];
 
-        $this->assertEquals($okData, $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta($okData, $out, 0.0000001, 'not equal');
     }
 
     public function testSimpleMapOtherType3()
@@ -863,7 +863,7 @@ class TarsTest extends TestCase
 
         $okData = [123 => 1.1];
 
-        $this->assertEquals($okData, $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta($okData, $out, 0.0000001, 'not equal');
     }
 
     public function testMapInMap()
@@ -1156,7 +1156,7 @@ class TarsTest extends TestCase
         $result = \TUPAPI::getStruct('struct', $outAllTypeStruct, $respBuf);
         $this->fromArray($result, $outAllTypeStruct);
 
-        $this->assertEquals($allTypeStruct, $outAllTypeStruct, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta($allTypeStruct, $outAllTypeStruct, 0.0000001, 'not equal');
     }
 
     public function testMapInVector()

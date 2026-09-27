@@ -230,10 +230,10 @@ PHP_METHOD(tup_exception, __construct) {
     }
 
     self = getThis();
-    zend_update_property_string(Z_OBJCE_P(self), self, ZEND_STRL("message"), msg TSRMLS_CC);
+    zend_update_property_string(Z_OBJCE_P(self), MY_ZEND_OBJECT(self), ZEND_STRL("message"), msg TSRMLS_CC);
 
     if (code) {
-        zend_update_property_long(Z_OBJCE_P(self), self, ZEND_STRL("code"), code TSRMLS_CC);
+        zend_update_property_long(Z_OBJCE_P(self), MY_ZEND_OBJECT(self), ZEND_STRL("code"), code TSRMLS_CC);
     }
 }
 /* }}} */
