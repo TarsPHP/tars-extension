@@ -198,5 +198,7 @@ PHPUnit 测试需要 PHP 7.2 或以上版本，以及 8.5 系列的 PHPUnit 8.5.
 
 PHPUnit 仅作为开发依赖安装，生产环境可使用 `composer install --no-dev`。Composer 的 PHP 平台固定为 7.2，以保持测试依赖的可复现性；这不会为原生扩展本身增加 PHP 7.2 的限制。PHP 7.0/7.1 无法运行修复后的 PHPUnit 测试，仍可通过 `make test` 运行原生 PHPT 测试。
 
+扩展已通过 Zend 对象 API 的条件兼容和显式方法参数信息支持 PHP 8.1。CI 在 PHP 7.2、7.3 和 8.1 上编译扩展并运行 PHPUnit 与 PHPT 套件。迁移需要安全版 `google/protobuf` 的应用前，请为 PHP 8.1 重新编译并安装此扩展，不能复用 PHP 7 的二进制文件。
+
 ### 同时指出phpt版本的测试用例
 安装完成扩展后，执行make test即可。

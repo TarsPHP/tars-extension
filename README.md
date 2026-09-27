@@ -272,6 +272,8 @@ In addition, testtarsclient.php and testtarsserver.php are the test cases of cli
 
 PHPUnit is a development dependency. Production installations can use `composer install --no-dev`. The Composer platform is pinned to PHP 7.2 for reproducible test dependencies; this does not add a PHP 7.2 requirement to the native extension itself. PHP 7.0/7.1 can no longer run the patched PHPUnit suite. Native PHPT tests remain available through `make test`.
 
+The extension supports PHP 8.1 through conditional Zend object API compatibility and explicit method argument metadata. CI builds the extension and runs both the PHPUnit and PHPT suites on PHP 7.2, 7.3, and 8.1. Rebuild and install this extension for PHP 8.1 before migrating applications that require the patched `google/protobuf` runtime; a binary built for PHP 7 cannot be reused.
+
 ### At the same time, it points out the test cases of PHPT version
 
 After the extension is installed, execute make test.
