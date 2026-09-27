@@ -1,0 +1,43 @@
+name: Extension tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        php: ['7.2', '7.3']
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, mbstring, xml, xmlwriter
+          coverage: none
+          tools: composer:v2
+      - run: composer validate --no-check-publish
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer check-platform-reqs
+      - run: composer audit --abandoned=report
+      - name: Build and enable extension
+        run: |
+          phpize
+          ./configure
+          make -j2
+          sudo make install
+          echo 'extension=phptars.so' | sudo tee "$(php --ini | sed -n 's|Scan for additional .ini files in: *||p')/99-phptars.ini"
+      - name: PHPUnit suites
+        working-directory: testcases
+        run: |
+          php ../vendor/bin/phpunit test.php
+          php ../vendor/bin/phpunit testTARSClient.php
+          php ../vendor/bin/phpunit testTARSServer.php
+      - name: Native PHPT suite
+        run: make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1
