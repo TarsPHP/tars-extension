@@ -8,16 +8,15 @@ os:
   - linux
 
 php:
-  - 7.0
-  - 7.1
   - 7.2
   - 7.3
+  - 8.1
 
 notifications:
   email: bob_zy@yeah.net
 
 install:
-   - composer update
+   - composer install --no-interaction --prefer-dist
   
 before_script:
     - phpize && ./configure && make && make install
@@ -25,8 +24,7 @@ before_script:
 
 script:
     - cd testcases 
-    - php ../vendor/bin/phpunit test.php
-    - php ../vendor/bin/phpunit testTARSClient.php
-    - php ../vendor/bin/phpunit testTARSServer.php
-
+    - php ../vendor/bin/phpunit --fail-on-warning test.php
+    - php ../vendor/bin/phpunit --fail-on-warning testTARSClient.php
+    - php ../vendor/bin/phpunit --fail-on-warning testTARSServer.php
 

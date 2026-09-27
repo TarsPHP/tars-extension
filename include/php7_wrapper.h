@@ -20,6 +20,16 @@
 #define EXT_PHP7_WRAPPER_H_
 
 
+#if PHP_MAJOR_VERSION >= 8
+/* PHP 8 removed the no-op PHP 7 thread-context macros. */
+#define TSRMLS_C
+#define TSRMLS_CC
+#define TSRMLS_DC
+#define MY_ZEND_OBJECT(obj) Z_OBJ_P(obj)
+#else
+#define MY_ZEND_OBJECT(obj) (obj)
+#endif
+
 #if PHP_MAJOR_VERSION < 7
 typedef int zend_size_t;
 #define IS_TRUE                               11
@@ -76,7 +86,7 @@ typedef size_t zend_size_t;
 static zval* my_zend_read_property(zend_class_entry *class_ptr, zval *obj, char *s, int len, int silent)
 {
     zval rv;
-    return zend_read_property(class_ptr, obj, s, len, silent, &rv);
+    return zend_read_property(class_ptr, MY_ZEND_OBJECT(obj), s, len, silent, &rv);
 }
 #define my_zval_ptr_dtor(p)                 zval_ptr_dtor(*p)
 #define MY_RETVAL_STRINGL(s, l, dup)    RETVAL_STRINGL(s, l); if (dup == 0) efree(s)

@@ -1673,10 +1673,10 @@ PHP_METHOD(tars_vector, __construct) {
     }
     obj->t = type;
 
-    zend_update_property(tars_vector_ce, getThis(), ZEND_STRL(VECTOR_PROP_TYPE_CLASS), clazz TSRMLS_CC);
-    zend_update_property_long(tars_vector_ce, getThis(), ZEND_STRL(VECTOR_PROP_TYPE), type TSRMLS_CC);
+    zend_update_property(tars_vector_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(VECTOR_PROP_TYPE_CLASS), clazz TSRMLS_CC);
+    zend_update_property_long(tars_vector_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(VECTOR_PROP_TYPE), type TSRMLS_CC);
 
-    zend_update_property_string(tars_vector_ce, getThis(), ZEND_STRL(TARS_PROP_TYPE_NAME), name TSRMLS_CC);
+    zend_update_property_string(tars_vector_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(TARS_PROP_TYPE_NAME), name TSRMLS_CC);
     efree(name);
 
     RETURN_ZVAL(getThis(), 1, 0);
@@ -1765,27 +1765,27 @@ PHP_METHOD(tars_map, __construct) {
 
     char * type_name;
     spprintf(&type_name, 0, "%s,%s", fname, sname);
-    zend_update_property_string(tars_map_ce, getThis(), ZEND_STRL(TARS_PROP_TYPE_NAME), type_name TSRMLS_CC);
+    zend_update_property_string(tars_map_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(TARS_PROP_TYPE_NAME), type_name TSRMLS_CC);
 
     map_wrapper * obj = Z_MAP_WRAPPER_P(getThis() TSRMLS_CC);
     obj->ctx = JMapWrapper_new(fname, sname);
     if (!obj->ctx) return MALLOC_EXCEPTION("Map");
 
     // 类型名
-    zend_update_property_string(tars_map_ce, getThis(), ZEND_STRL(MAP_FIRST_TYPE_NAME), fname TSRMLS_CC);
-    zend_update_property_string(tars_map_ce, getThis(), ZEND_STRL(MAP_SECOND_TYPE_NAME), sname TSRMLS_CC);
+    zend_update_property_string(tars_map_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(MAP_FIRST_TYPE_NAME), fname TSRMLS_CC);
+    zend_update_property_string(tars_map_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(MAP_SECOND_TYPE_NAME), sname TSRMLS_CC);
 
     // 类型值
-    zend_update_property_long(tars_map_ce, getThis(), ZEND_STRL(MAP_PROP_FIRST_TYPE), ftype TSRMLS_CC);
-    zend_update_property_long(tars_map_ce, getThis(), ZEND_STRL(MAP_PROP_SECOND_TYPE), stype TSRMLS_CC);
+    zend_update_property_long(tars_map_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(MAP_PROP_FIRST_TYPE), ftype TSRMLS_CC);
+    zend_update_property_long(tars_map_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(MAP_PROP_SECOND_TYPE), stype TSRMLS_CC);
 
     // 类型对象
-    zend_update_property(tars_map_ce, getThis(), ZEND_STRL(MAP_FIRST_TYPE_CLASS), fclazz TSRMLS_CC);
-    zend_update_property(tars_map_ce, getThis(), ZEND_STRL(MAP_SECOND_TYPE_CLASS), sclazz TSRMLS_CC);
+    zend_update_property(tars_map_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(MAP_FIRST_TYPE_CLASS), fclazz TSRMLS_CC);
+    zend_update_property(tars_map_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(MAP_SECOND_TYPE_CLASS), sclazz TSRMLS_CC);
 
     // 打包解包方式
     if (format) {
-        zend_update_property_bool(tars_map_ce, getThis(), ZEND_STRL(MAP_PROP_PARAM_FORMAT), 1 TSRMLS_CC);
+        zend_update_property_bool(tars_map_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(MAP_PROP_PARAM_FORMAT), 1 TSRMLS_CC);
     }
 
     efree(fname);
@@ -1863,10 +1863,10 @@ PHP_METHOD(tars_struct, __construct) {
 
     if (fields) {
         // 所有字段信息
-        zend_update_property(tars_struct_ce, getThis(), ZEND_STRL(STRUCT_PROP_FIELDS), fields TSRMLS_CC);
+        zend_update_property(tars_struct_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(STRUCT_PROP_FIELDS), fields TSRMLS_CC);
     }
 
-    zend_update_property_string(tars_struct_ce, getThis(), ZEND_STRL(TARS_PROP_TYPE_NAME), class_name TSRMLS_CC);
+    zend_update_property_string(tars_struct_ce, MY_ZEND_OBJECT(getThis()), ZEND_STRL(TARS_PROP_TYPE_NAME), class_name TSRMLS_CC);
     RETURN_ZVAL(getThis(), 1, 0);
 }
 /* }}} */

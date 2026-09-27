@@ -420,7 +420,7 @@ class TarsTest extends TestCase
 
         $out = \TUPAPI::getFloat('1', $respBuf, true, $this->iVersion);
 
-        $this->assertEquals((float) $float, (float) $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta((float) $float, (float) $out, 0.0000001, 'not equal');
     }
 
     public function testDefaultFloat()
@@ -441,7 +441,7 @@ class TarsTest extends TestCase
 
         $out = \TUPAPI::getFloat('2', $respBuf, false, $this->iVersion);
 
-        $this->assertEquals((float) $float, (float) $out, 'not equal', 0.0000001);
+        $this->assertEqualsWithDelta((float) $float, (float) $out, 0.0000001, 'not equal');
     }
 
     public function testString()

@@ -249,7 +249,7 @@ Please refer to the documentation under the tars2php module:
 
 For the common use of extensions, test cases are added, which are located in the / ext / testcases folder,
 
-When testing, you only need to execute `php phpunit-4.8.36.phar test.php` to complete the execution of all test cases. It covers:
+The PHPUnit suite requires PHP 7.2 or later and PHPUnit 8.5.52 or later in the 8.5 series (CVE-2026-24765). Run `composer install` at the repository root, then run `php ../vendor/bin/phpunit test.php` from `testcases/`. It covers:
 
 * All basic types of packaging, unpacking and coding tests
 
@@ -270,7 +270,9 @@ When testing, you only need to execute `php phpunit-4.8.36.phar test.php` to com
 In addition, testtarsclient.php and testtarsserver.php are the test cases of client contracting, server unpacking, server callback and client unpacking under the tars protocol (iversion = 1).
 
 
-Note that you need to download phpunit's executable or use the pre installed phpunit tool directly for unit testing.
+PHPUnit is a development dependency. Production installations can use `composer install --no-dev`. The Composer platform is pinned to PHP 7.2 for reproducible test dependencies; this does not add a PHP 7.2 requirement to the native extension itself. PHP 7.0/7.1 can no longer run the patched PHPUnit suite. Native PHPT tests remain available through `make test`.
+
+The extension supports PHP 8.1 through conditional Zend object API compatibility and explicit method argument metadata. CI builds the extension and runs both the PHPUnit and PHPT suites on PHP 7.2, 7.3, and 8.1. Rebuild and install this extension for PHP 8.1 before migrating applications that require the patched `google/protobuf` runtime; a binary built for PHP 7 cannot be reused.
 
 ### At the same time, it points out the test cases of PHPT version
 

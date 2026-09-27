@@ -81,17 +81,69 @@ ZEND_END_ARG_INFO()
  *
  * Every user visible function must have an entry in ttup_functions[].
  */
+ZEND_BEGIN_ARG_INFO_EX(encode_arginfo, 0, 0, 10)
+    ZEND_ARG_INFO(0, iVersion)
+    ZEND_ARG_INFO(0, iRequestId)
+    ZEND_ARG_INFO(0, servantName)
+    ZEND_ARG_INFO(0, funcName)
+    ZEND_ARG_INFO(0, cPacketType)
+    ZEND_ARG_INFO(0, iMessageType)
+    ZEND_ARG_INFO(0, iTimeout)
+    ZEND_ARG_ARRAY_INFO(0, contexts, 0)
+    ZEND_ARG_ARRAY_INFO(0, statuses, 0)
+    ZEND_ARG_ARRAY_INFO(0, inbuf_arr, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(decode_arginfo, 0, 0, 1)
+    ZEND_ARG_INFO(0, respBuffer)
+    ZEND_ARG_INFO(0, iVersion)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(encode_rsp_arginfo, 0, 0, 8)
+    ZEND_ARG_INFO(0, iVersion)
+    ZEND_ARG_INFO(0, cPacketType)
+    ZEND_ARG_INFO(0, iMessageType)
+    ZEND_ARG_INFO(0, iRequestId)
+    ZEND_ARG_INFO(0, iRet)
+    ZEND_ARG_INFO(0, sResultDesc)
+    ZEND_ARG_ARRAY_INFO(0, inbuf_arr, 0)
+    ZEND_ARG_ARRAY_INFO(0, statuses, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(decode_req_arginfo, 0, 0, 1)
+    ZEND_ARG_INFO(0, respBuffer)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(put_struct_arginfo, 0, 0, 2)
+    ZEND_ARG_INFO(0, name)
+    ZEND_ARG_OBJ_INFO(0, clazz, TARS_Struct, 0)
+    ZEND_ARG_INFO(0, iVersion)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(get_struct_arginfo, 0, 0, 3)
+    ZEND_ARG_INFO(0, name)
+    ZEND_ARG_OBJ_INFO(0, clazz, TARS_Struct, 0)
+    ZEND_ARG_INFO(0, buf)
+    ZEND_ARG_INFO(0, is_require)
+    ZEND_ARG_INFO(0, iVersion)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(exception_ctor_arginfo, 0, 0, 1)
+    ZEND_ARG_INFO(0, message)
+    ZEND_ARG_INFO(0, code)
+ZEND_END_ARG_INFO()
+
 zend_function_entry tup_methods[] = {
     // 编解码接口
-    PHP_ME(tup,encode,NULL,ZEND_ACC_PUBLIC| ZEND_ACC_STATIC)
-    PHP_ME(tup,decode,NULL,ZEND_ACC_PUBLIC| ZEND_ACC_STATIC)
+    PHP_ME(tup,encode,encode_arginfo,ZEND_ACC_PUBLIC| ZEND_ACC_STATIC)
+    PHP_ME(tup,decode,decode_arginfo,ZEND_ACC_PUBLIC| ZEND_ACC_STATIC)
     // 这两个是给server用的,反向的编解码接口
-    PHP_ME(tup,encodeRspPacket,NULL,ZEND_ACC_PUBLIC| ZEND_ACC_STATIC)
+    PHP_ME(tup,encodeRspPacket,encode_rsp_arginfo,ZEND_ACC_PUBLIC| ZEND_ACC_STATIC)
     // 这个接口未必需要啦,看情况
-    PHP_ME(tup,decodeReqPacket,NULL,ZEND_ACC_PUBLIC| ZEND_ACC_STATIC)
+    PHP_ME(tup,decodeReqPacket,decode_req_arginfo,ZEND_ACC_PUBLIC| ZEND_ACC_STATIC)
 
-    PHP_ME(tup, putStruct, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
-    PHP_ME(tup, getStruct, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(tup, putStruct, put_struct_arginfo, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
+    PHP_ME(tup, getStruct, get_struct_arginfo, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
 
     PHP_ME(tup, putBool, put_common_arginfo, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
     PHP_ME(tup, getBool, get_common_arginfo, ZEND_ACC_PUBLIC | ZEND_ACC_STATIC)
@@ -129,7 +181,7 @@ zend_function_entry tup_methods[] = {
  * Every user visible function must have an entry in ttup_functions[].
  */
 zend_function_entry tup_exception_methods[] = {
-    PHP_ME(tup_exception, __construct, NULL, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
+    PHP_ME(tup_exception, __construct, exception_ctor_arginfo, ZEND_ACC_PUBLIC | ZEND_ACC_CTOR)
     {NULL, NULL, NULL}
 };
 /* }}} */
@@ -230,10 +282,10 @@ PHP_METHOD(tup_exception, __construct) {
     }
 
     self = getThis();
-    zend_update_property_string(Z_OBJCE_P(self), self, ZEND_STRL("message"), msg TSRMLS_CC);
+    zend_update_property_string(Z_OBJCE_P(self), MY_ZEND_OBJECT(self), ZEND_STRL("message"), msg TSRMLS_CC);
 
     if (code) {
-        zend_update_property_long(Z_OBJCE_P(self), self, ZEND_STRL("code"), code TSRMLS_CC);
+        zend_update_property_long(Z_OBJCE_P(self), MY_ZEND_OBJECT(self), ZEND_STRL("code"), code TSRMLS_CC);
     }
 }
 /* }}} */

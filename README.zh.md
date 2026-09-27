@@ -185,7 +185,7 @@ $buf = $ret['sBuffer']
 
 ### phpunit版本的测试用例
 针对扩展的常见使用,增加了测试用例,位于/ext/testcases文件夹下,
-测试时只需要执行`php phpunit-4.8.36.phar test.php` 即可完成所有测试用例的执行。其中覆盖到了:
+PHPUnit 测试需要 PHP 7.2 或以上版本，以及 8.5 系列的 PHPUnit 8.5.52 或以上版本（修复 CVE-2026-24765）。在仓库根目录执行 `composer install`，然后在 `testcases/` 目录执行 `php ../vendor/bin/phpunit test.php`。其中覆盖到了:
 * 所有基本类型的打包解包和编码的测试
 * 简单struct类型打包解包和编码的测试
 * 简单vector类型的打包解包和编码的测试
@@ -196,7 +196,9 @@ $buf = $ret['sBuffer']
 
 另外testTARSClient.php和testTARSServer.php是tars协议（iVersion=1）情况下客户端发包，服务端解包 和 服务端回包，客户端解包的测试用例。
 
-注意，需要自行下载phpunit的可执行文件，或直接使用预先安装好的phpunit工具，进行单元测试。
+PHPUnit 仅作为开发依赖安装，生产环境可使用 `composer install --no-dev`。Composer 的 PHP 平台固定为 7.2，以保持测试依赖的可复现性；这不会为原生扩展本身增加 PHP 7.2 的限制。PHP 7.0/7.1 无法运行修复后的 PHPUnit 测试，仍可通过 `make test` 运行原生 PHPT 测试。
+
+扩展已通过 Zend 对象 API 的条件兼容和显式方法参数信息支持 PHP 8.1。CI 在 PHP 7.2、7.3 和 8.1 上编译扩展并运行 PHPUnit 与 PHPT 套件。迁移需要安全版 `google/protobuf` 的应用前，请为 PHP 8.1 重新编译并安装此扩展，不能复用 PHP 7 的二进制文件。
 
 ### 同时指出phpt版本的测试用例
 安装完成扩展后，执行make test即可。
