@@ -37,8 +37,12 @@ jobs:
       - name: PHPUnit suites
         working-directory: testcases
         run: |
-          php ../vendor/bin/phpunit test.php
-          php ../vendor/bin/phpunit testTARSClient.php
-          php ../vendor/bin/phpunit testTARSServer.php
+          php ../vendor/bin/phpunit --fail-on-warning test.php
+          php ../vendor/bin/phpunit --fail-on-warning testTARSClient.php
+          php ../vendor/bin/phpunit --fail-on-warning testTARSServer.php
       - name: Native PHPT suite
-        run: make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1
+        run: |
+          if ! make test NO_INTERACTION=1 REPORT_EXIT_STATUS=1; then
+            find tests -name '*.diff' -exec cat {} \;
+            exit 1
+          fi

@@ -21,11 +21,10 @@
 
 
 #if PHP_MAJOR_VERSION >= 8
-/* PHP 8 removed the no-op PHP 7 thread-context and constructor macros. */
+/* PHP 8 removed the no-op PHP 7 thread-context macros. */
 #define TSRMLS_C
 #define TSRMLS_CC
 #define TSRMLS_DC
-#define ZEND_ACC_CTOR 0
 #define MY_ZEND_OBJECT(obj) Z_OBJ_P(obj)
 #else
 #define MY_ZEND_OBJECT(obj) (obj)
